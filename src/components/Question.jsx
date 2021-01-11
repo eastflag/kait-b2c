@@ -2,20 +2,35 @@ import React from 'react';
 import ObjectiveQuestion from "./ObjectiveQuestion";
 import SubjectiveQuestion from "./SubjectiveQuestion";
 import _ from 'lodash';
+import {Row, Col} from "antd";
 
-function Question({item_name, examples, answers, formulas}) {
+function Question({name, examples, answers, equations}) {
   return (
-    <div>
-      <span>{item_name}</span>
-      {
-        examples.map((example, index) => {
-          const subNumber = index > 0 ? <span>({index + 1})</span> : ''
-          const question = example.length > 0 ? <ObjectiveQuestion example={example} answer={answers[index]}></ObjectiveQuestion> :
-            <SubjectiveQuestion answer={answers[index]} formula={formulas[index]}></SubjectiveQuestion>
-          return [subNumber, question]
-        })
-      }
-    </div>
+    <>
+      <Row>
+        <Col span={4}><h3>{name}</h3></Col>
+        <Col span={20}>
+            {
+              examples.map((example, index) => {
+                const subNumber = examples.length > 1 ? <Col>({index + 1})</Col> : ''
+                const question = example.indexOf('X') > -1 ? <SubjectiveQuestion key={name + index.toString()} index={name + index.toString()} answer={answers[index]} equation={equations[index]}></SubjectiveQuestion> :
+                  <ObjectiveQuestion key={name + index.toString()} index={name + index.toString()} example={example} answer={answers[index]}></ObjectiveQuestion>
+                return (
+                  <Row justify="space-around">
+                    {
+                      examples.length > 1 ? <Col>({index + 1})</Col> : ''
+                    }
+                    {
+                      example.indexOf('X') > -1 ? <SubjectiveQuestion key={name + index.toString()} index={name + index.toString()} answer={answers[index]} equation={equations[index]}></SubjectiveQuestion> :
+                        <ObjectiveQuestion key={name + index.toString()} index={name + index.toString()} example={example} answer={answers[index]}></ObjectiveQuestion>
+                    }
+                  </Row>
+                )
+              })
+            }
+        </Col>
+      </Row>
+    </>
   );
 }
 

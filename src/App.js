@@ -1,24 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import QuestionList from "./components/QuestionList";
+import {Layout, Row, Col} from "antd";
+
+const { Content } = Layout;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Content class="main">
+        <Row justify="center">
+          <Col xs={24} sm={18} md={12} lg={8} xl={6}>
+            <QuestionList></QuestionList>
+          </Col>
+        </Row>
+      </Content>
+    </Layout>
   );
 }
 

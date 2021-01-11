@@ -1,11 +1,9 @@
 import React from 'react';
+import {Col, Button} from "antd";
 
-function ObjectiveQuestionTsx({objectives}) {
-  return (
-    <div>
-      {objectives.map(objective => <span>{objective}</span>)}
-    </div>
-  );
+function ObjectiveQuestion({example, answer, index}) {
+  console.log('ObjectiveQuestion', index);
+  return example.replace(' ', '').split(',').map((item, index) => <Col><Button key={index}>{item}</Button></Col>)
 }
 
-export default ObjectiveQuestionTsx;
+export default ObjectiveQuestion;
