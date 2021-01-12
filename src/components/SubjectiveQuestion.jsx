@@ -27,11 +27,6 @@ function SubjectiveQuestion({equation, index}) {
     setMyEquation(tempEquation);
   }, [myAnswerList]);
 
-  /**
-   * 수식을 입력값으로 대체
-   * @param e
-   * @param item 순서 인덱스
-   */
   const onChange = (e, index) => {
     // myAnswerList 변경
     myAnswerList[index] = e.target.value;

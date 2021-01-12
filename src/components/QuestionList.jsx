@@ -29,12 +29,12 @@ function QuestionList(props) {
 
   return (
     <div>
-      <h3>
+{/*      <h3>
         <Latex>{s1}</Latex>
       </h3>
       <h2>
         <Latex displayMode={true}>{s2}</Latex>
-      </h2>
+      </h2>*/}
       {
         questions.map(question => <Question key={question.name} name={question.name} examples={question.examples}
                                             answers={question.answers} equations={question.equations}></Question>)
