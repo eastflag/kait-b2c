@@ -28,7 +28,7 @@ function QuestionList(props) {
   const s2 = '$$(3\\times 4) \\div (5-3)$$'
 
   return (
-    <div>
+    <>
 {/*      <h3>
         <Latex>{s1}</Latex>
       </h3>
@@ -39,7 +39,7 @@ function QuestionList(props) {
         questions.map(question => <Question key={question.name} name={question.name} examples={question.examples}
                                             answers={question.answers} equations={question.equations}></Question>)
       }
-    </div>
+    </>
   );
 }
 
