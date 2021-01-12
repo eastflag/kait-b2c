@@ -8,8 +8,8 @@ function QuestionList(props) {
     {"name": "0093", "examples":  "1,2,3,4", "equations": "", "answers": "2"},
     {"name": "0094", "examples":  "1,2,3,4", "equations": "", "answers": "1,2"},
     {"name": "0095", "examples":  "1,2,3,4|1,2,3,4", "equations": "|", "answers": "1,2|1"},
-    {"name": "0096", "examples":  "X", "equations": "@^{@}", "answers": "2,5"},
-    {"name": "0097", "examples":  "X|X", "equations": "@^{@}|@^{A}", "answers": "2,5|3,5"}
+    {"name": "0096", "examples":  "X", "equations": "@^{@} \\times @^{@}", "answers": "2,5,3,4"},
+    {"name": "0097", "examples":  "X|X", "equations": "@^{@} \\times @^{@}|@^{@} \\times @^{@}", "answers": "2,5,3,4|2,5,3,4"}
   ]
 
   useEffect(() => {
@@ -32,9 +32,9 @@ function QuestionList(props) {
       <h3>
         <Latex>{s1}</Latex>
       </h3>
-      <h3>
+      <h2>
         <Latex displayMode={true}>{s2}</Latex>
-      </h3>
+      </h2>
       {
         questions.map(question => <Question key={question.name} name={question.name} examples={question.examples}
                                             answers={question.answers} equations={question.equations}></Question>)

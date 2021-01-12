@@ -1,36 +1,54 @@
 import React, {useEffect, useState} from 'react';
 import Latex from "react-latex";
-import { Input } from "antd";
+import { Row, Col, Input } from "antd";
+import _ from 'lodash';
 
 function SubjectiveQuestion({equation, index}) {
   console.log('SubjectiveQuestion', index)
-  const [input, setInput] = useState('');
-  const [answer, setAnswer] = useState('');
+  const answerCount = equation.split('@').length - 1;
+  const [myEquation, setMyEquation] = useState('');
+  const [myAnswerList, setMyAnswerList] = useState([]);
 
   useEffect(() => {
-    setAnswer(equation);
+    const initAnswerList =_.range(0, answerCount).map(item => '');
+    setMyAnswerList(initAnswerList);
   }, [])
 
-  const onChange = (e) => {
-    console.log(e.target.value);
-    const inputList = e.target.value.split(',');
-    let copyEquation = equation;
-    inputList.forEach(item => {
-      if (item) {
-        copyEquation = copyEquation.replace('@', item);
-      }
-    })
-    console.log(copyEquation);
-    setAnswer(copyEquation)
+  useEffect(() => {
+    if (myAnswerList.length === 0) {
+      return;
+    }
+    // 원본 수식에서 myAnswerList 입력값으로 수식 변경하기, 변경된게 없으면 @는 square로 변경
+    let nth = -1;
+    let tempEquation = equation.replace(/@/g, (match, i, original) => {
+      ++nth;
+      return myAnswerList[nth] ? myAnswerList[nth] : '\\square';
+    });
+    setMyEquation(tempEquation);
+  }, [myAnswerList]);
+
+  /**
+   * 수식을 입력값으로 대체
+   * @param e
+   * @param item 순서 인덱스
+   */
+  const onChange = (e, index) => {
+    // myAnswerList 변경
+    myAnswerList[index] = e.target.value;
+    setMyAnswerList([...myAnswerList]);
   }
 
   return (
-    <div>
-      <Latex displayMode={true}>{`\$\$${answer}\$\$`}</Latex>
-      <div>
-        <Input placeholder=", 로 분리하세요" onChange={onChange}/>
-      </div>
-    </div>
+    <Col flex={1}>
+      <h3 style={{margin: 0}}>
+        <Latex displayMode={true}>{`\$\$${myEquation}\$\$`}</Latex>
+      </h3>
+      <Row justify="space-between">
+        {
+          _.range(0, answerCount).map(item => <Col><Input style={{width: '50px', padding: '0.3rem 0'}} onChange={(e) => onChange(e, item)}/></Col>)
+        }
+      </Row>
+    </Col>
   );
 }
 
