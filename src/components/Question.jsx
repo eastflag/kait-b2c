@@ -7,16 +7,13 @@ import {Row, Col} from "antd";
 function Question({name, examples, answers, equations}) {
   return (
     <>
-      <Row>
-        <Col span={4}><h3>{name}</h3></Col>
-        <Col span={20}>
+      <Row className="question">
+        <Col className="name-title"><h3>{name}</h3></Col>
+        <Col flex="auto">
             {
               examples.map((example, index) => {
-                const subNumber = examples.length > 1 ? <Col>({index + 1})</Col> : ''
-                const question = example.indexOf('X') > -1 ? <SubjectiveQuestion key={name + index.toString()} index={name + index.toString()} answer={answers[index]} equation={equations[index]}></SubjectiveQuestion> :
-                  <ObjectiveQuestion key={name + index.toString()} index={name + index.toString()} example={example} answer={answers[index]}></ObjectiveQuestion>
                 return (
-                  <Row justify="space-around">
+                  <Row justify="space-between">
                     {
                       examples.length > 1 ? <Col>({index + 1})</Col> : ''
                     }

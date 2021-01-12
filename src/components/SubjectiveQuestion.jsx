@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Latex from "react-latex";
+import { Input } from "antd";
 
 function SubjectiveQuestion({equation, index}) {
   console.log('SubjectiveQuestion', index)
@@ -27,7 +28,7 @@ function SubjectiveQuestion({equation, index}) {
     <div>
       <Latex displayMode={true}>{`\$\$${answer}\$\$`}</Latex>
       <div>
-        <input type="text" onChange={onChange}/>
+        <Input placeholder=", 로 분리하세요" onChange={onChange}/>
       </div>
     </div>
   );
