@@ -7,7 +7,7 @@ const { Content } = Layout;
 function App() {
   return (
     <Layout>
-      <Content class="main">
+      <Content style={{padding: '0.5rem'}}>
         <Row justify="center">
           <Col xs={24} sm={18} md={12} lg={8} xl={6}>
             <QuestionList></QuestionList>
