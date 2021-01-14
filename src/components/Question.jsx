@@ -31,7 +31,7 @@ function Question({name, examples, answers, equations, myAnswer, setMyAnswer, an
                     {
                       example.indexOf('X') > -1 ? <SubjectiveQuestion key={name + index.toString()} index={name + index.toString()}
                                                       answer={answers[index]} equation={equations[index]}
-                                                      myAnswer={myAnswer} setSubMyAnswer={setSubMyAnswer} answerSubIndex={index}></SubjectiveQuestion> :
+                                                      myAnswer={myAnswer.split('|')[index]} setSubMyAnswer={setSubMyAnswer} answerSubIndex={index}></SubjectiveQuestion> :
                         <ObjectiveQuestion key={name + index.toString()} index={name + index.toString()} example={example}
                             answer={answers[index]}
                             myAnswer={myAnswer.split('|')[index]} setSubMyAnswer={setSubMyAnswer} answerSubIndex={index}></ObjectiveQuestion>
