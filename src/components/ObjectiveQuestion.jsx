@@ -23,9 +23,9 @@ function ObjectiveQuestion({example, answer, myAnswer, setSubMyAnswer, answerSub
   }
 
   return example.replaceAll(' ', '')
-    .split(',').map((item, index) => <Col><Button shape={answerCount > 1 ? '' : 'circle'}
+    .split(',').map((item, index) => <Col key={index}><Button shape={answerCount > 1 ? '' : 'circle'}
                                                   type={myAnswer.indexOf(item) > -1 ? 'primary' : ''}
-                                                  key={index} onClick={() => onToggle(item)}>{item}</Button></Col>)
+                                                  onClick={() => onToggle(item)}>{item}</Button></Col>)
 }
 
 export default ObjectiveQuestion;

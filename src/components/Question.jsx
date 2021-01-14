@@ -24,15 +24,15 @@ function Question({name, examples, answers, equations, myAnswer, setMyAnswer, an
             {
               examples.map((example, index) => {
                 return (
-                  <Row justify="space-between">
+                  <Row justify="space-between" key={index}>
                     {
                       examples.length > 1 ? <Col>({index + 1})</Col> : ''
                     }
                     {
-                      example.indexOf('X') > -1 ? <SubjectiveQuestion key={name + index.toString()} index={name + index.toString()}
+                      example.indexOf('X') > -1 ? <SubjectiveQuestion index={name + index.toString()}
                                                       answer={answers[index]} equation={equations[index]}
                                                       myAnswer={myAnswer.split('|')[index]} setSubMyAnswer={setSubMyAnswer} answerSubIndex={index}></SubjectiveQuestion> :
-                        <ObjectiveQuestion key={name + index.toString()} index={name + index.toString()} example={example}
+                        <ObjectiveQuestion index={name + index.toString()} example={example}
                             answer={answers[index]}
                             myAnswer={myAnswer.split('|')[index]} setSubMyAnswer={setSubMyAnswer} answerSubIndex={index}></ObjectiveQuestion>
                     }

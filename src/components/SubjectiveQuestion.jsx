@@ -40,7 +40,8 @@ function SubjectiveQuestion({equation, myAnswer, setSubMyAnswer, answerSubIndex}
       </h3>
       <Row justify="space-between">
         {
-          _.range(0, answerCount).map(item => <Col><Input style={{width: '50px', padding: '0.3rem 0'}} onChange={(e) => onChange(e, item)}/></Col>)
+          _.range(0, answerCount).map(item => <Col key={item}><Input style={{width: '50px', padding: '0.3rem 0'}}
+                                                onChange={(e) => onChange(e, item)}/></Col>)
         }
       </Row>
     </Col>
