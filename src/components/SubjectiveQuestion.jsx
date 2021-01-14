@@ -3,34 +3,32 @@ import Latex from "react-latex";
 import { Row, Col, Input } from "antd";
 import _ from 'lodash';
 
-function SubjectiveQuestion({equation, index}) {
-  console.log('SubjectiveQuestion', index)
+function SubjectiveQuestion({equation, myAnswer, setSubMyAnswer, answerSubIndex}) {
   const answerCount = equation.split('@').length - 1;
   const [myEquation, setMyEquation] = useState('');
-  const [myAnswerList, setMyAnswerList] = useState([]);
 
   useEffect(() => {
     const initAnswerList =_.range(0, answerCount).map(item => '');
-    setMyAnswerList(initAnswerList);
+    setSubMyAnswer(answerSubIndex, initAnswerList);
   }, [])
 
   useEffect(() => {
-    if (myAnswerList.length === 0) {
+    if (!myAnswer) {
       return;
     }
-    // 원본 수식에서 myAnswerList 입력값으로 수식 변경하기, 변경된게 없으면 @는 square로 변경
+    // 원본 수식에서 myAnswer 입력값으로 수식 변경하기, 변경된게 없으면 @는 square로 변경
     let nth = -1;
     let tempEquation = equation.replace(/@/g, (match, i, original) => {
       ++nth;
-      return myAnswerList[nth] ? myAnswerList[nth] : '\\square';
+      return myAnswer[nth] ? myAnswer[nth] : '\\square';
     });
     setMyEquation(tempEquation);
-  }, [myAnswerList]);
+  }, [myAnswer]);
 
   const onChange = (e, index) => {
-    // myAnswerList 변경
-    myAnswerList[index] = e.target.value;
-    setMyAnswerList([...myAnswerList]);
+    // myAnswer 변경
+    myAnswer[index] = e.target.value;
+    setSubMyAnswer(answerSubIndex, [...myAnswer]);
   }
 
   return (
