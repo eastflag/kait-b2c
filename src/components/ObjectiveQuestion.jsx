@@ -6,6 +6,9 @@ function ObjectiveQuestion({example, answer, userAnswer, myAnswer, setSubMyAnswe
   const answerCount = answer.split(',').length;
 
   const onToggle = (number) => {
+    if (userAnswer) {
+      return;
+    }
     // 다지 선다형
     if (answerCount > 1) {
       let tempArray = myAnswer ? myAnswer.split(',') : [];

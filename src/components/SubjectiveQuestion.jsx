@@ -9,12 +9,26 @@ function SubjectiveQuestion({equation, userAnswer, myAnswer, setSubMyAnswer, ans
   const [myEquation, setMyEquation] = useState('');
 
   useEffect(() => {
+    // 입력값이 두개 이상인 경우 ,로 채운다.
     const initAnswer = Array(answerCount).join(',');
     setSubMyAnswer(answerSubIndex, initAnswer);
   }, [])
 
   // 수식 변경
   useEffect(() => {
+    // 사용자 입력값이 있는 경우 처리
+    if (!!userAnswer) {
+      // 원본 수식에서 myAnswer 입력값으로 수식 변경하기, 변경된게 없으면 @는 square로 변경
+      const userAnswerList = userAnswer.split(',');
+      let nth = -1;
+      let tempEquation = equation.replace(/@/g, (match, i, original) => {
+        ++nth;
+        return userAnswerList[nth] ? userAnswerList[nth] : '\\square';
+      });
+      setMyEquation(tempEquation);
+      return;
+    }
+
     // 원본 수식에서 myAnswer 입력값으로 수식 변경하기, 변경된게 없으면 @는 square로 변경
     const myAnswerList = myAnswer.split(',');
     let nth = -1;
@@ -25,19 +39,6 @@ function SubjectiveQuestion({equation, userAnswer, myAnswer, setSubMyAnswer, ans
     setMyEquation(tempEquation);
 
   }, [myAnswer]);
-
-  // 입력값이 존재하는 경우
-  useEffect(() => {
-    // 원본 수식에서 myAnswer 입력값으로 수식 변경하기, 변경된게 없으면 @는 square로 변경
-    const userAnswerList = userAnswer.split(',');
-    let nth = -1;
-    let tempEquation = equation.replace(/@/g, (match, i, original) => {
-      ++nth;
-      return userAnswerList[nth] ? userAnswerList[nth] : '\\square';
-    });
-    setMyEquation(tempEquation);
-
-  }, [userAnswer]);
 
   // myAnswer 변경
   const onChange = (e, index) => {

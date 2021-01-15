@@ -55,14 +55,23 @@ function QuestionList(props) {
     const dataList = [];
     const regex = new RegExp("[0-9]+");
 
-    originalQuestions.forEach((item, index) => {
-      // 정답이 있는 경우만 체크한다. 서브 문제이 경우 모든 문제가 체크되어야 한다.
-      const check = myAnswers[index].split('|').map(item => regex.test(item)).every(item => item);
+    originalQuestions.forEach((question, index) => {
+      // 정답이 있는 경우만 체크한다. 서브 문제인 경우 모든 문제가 체크되어야 한다.
+      const check = myAnswers[index].split('|')
+        .map((subMyAnswer, subIndex) => { // 서브 문제
+          if (question.examples.split('|')[subIndex] === 'X') { // 주관식일 경우 숫자가 한개이상 있고 콤마 사이에 모든 숫자가 있어야 한다.
+            return regex.test(subMyAnswer) && !(subMyAnswer.startsWith(',') || subMyAnswer.endsWith(',') || subMyAnswer.indexOf(',,') > -1) ? true : false;
+          } else { // 객관식일 경우.
+            return !!subMyAnswer;
+          }
+        })
+        .every(item => item); // 모든 서브 문제가 true인지 체크
+
       if (check) {
         dataList.push({
-          questionId: item.id,
+          questionId: question.id,
           answer: myAnswers[index],
-          score: myAnswers[index] === item.answers
+          score: myAnswers[index] === question.answers
         })
       }
     })
