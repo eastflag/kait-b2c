@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Col, Button} from "antd";
+import classNames from 'classnames';
 
-function ObjectiveQuestion({example, answer, myAnswer, setSubMyAnswer, answerSubIndex}) {
+function ObjectiveQuestion({example, answer, userAnswer, myAnswer, setSubMyAnswer, answerSubIndex}) {
   const answerCount = answer.split(',').length;
 
   const onToggle = (number) => {
@@ -25,6 +26,8 @@ function ObjectiveQuestion({example, answer, myAnswer, setSubMyAnswer, answerSub
   return example.replaceAll(' ', '')
     .split(',').map((item, index) => <Col key={index}><Button shape={answerCount > 1 ? '' : 'circle'}
                                                   type={myAnswer.indexOf(item) > -1 ? 'primary' : ''}
+                                                  className={classNames({'btn-disabled-selected ': userAnswer.indexOf(item) > -1})}
+                                                  disabled={userAnswer}
                                                   onClick={() => onToggle(item)}>{item}</Button></Col>)
 }
 

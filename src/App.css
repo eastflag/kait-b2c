@@ -1,9 +1,23 @@
 .question {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 .name-title {
   padding-right: 2rem;
 }
+
+.display-none {
+  display: none;
+}
+/*수식*/
+.katex-display {
+  margin: 0 !important;
+}
+
+.btn-disabled-selected {
+  color: #0021ff !important;
+}
+
+
 
 @keyframes App-logo-spin {
   from {
