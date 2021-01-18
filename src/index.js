@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {ROUTES} from "./routes";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Switch>
+      {
+        ROUTES.map(route => (
+          <Route key={route.key}
+                 path={route.path}
+                 exact={route.exact}
+                 render={(props) =><route.component {...props}></route.component>}>
+          </Route>
+        ))
+      }
+    </Switch>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

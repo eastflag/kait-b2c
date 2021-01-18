@@ -17,3 +17,12 @@ code {
 .main {
 
 }
+
+/*수식*/
+.katex-display {
+  margin: 0 !important;
+}
+
+.btn-disabled-selected {
+  color: #0021ff !important;
+}

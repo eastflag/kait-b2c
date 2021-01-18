@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import Question from "./Question";
-import api from "../utils/api";
+import Question from "../../components/Question";
+import api from "../../utils/api";
 import {Button} from "antd";
 
 function QuestionList(props) {

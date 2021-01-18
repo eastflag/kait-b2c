@@ -1,10 +1,11 @@
-import './App.css';
-import QuestionList from "./components/QuestionList";
-import {Layout, Row, Col} from "antd";
+import React from 'react';
+import {Col, Layout, Row} from "antd";
+import QuestionList from "./QuestionList";
+import './Marking.css';
 
 const { Content } = Layout;
 
-function App() {
+function Marking(props) {
   return (
     <Layout>
       <Content style={{padding: '0.5rem'}}>
@@ -18,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export default Marking;
