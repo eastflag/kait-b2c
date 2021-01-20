@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import {Row, Form, Input, Button, Checkbox} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {ROUTES_PATH} from "../../routes";
@@ -11,7 +11,9 @@ function Login(props) {
 
   return (
     <>
-      <h2>Sign In</h2>
+      <Row justify="center">
+        <h2>Sign In</h2>
+      </Row>
       <Form
         name="normal_login"
         className="login-form"
@@ -63,7 +65,9 @@ function Login(props) {
         </Form.Item>
       </Form>
 
-      <Link to={ROUTES_PATH.SignUp}>회원 가입</Link>
+      <Row justify="end">
+        <Link to={ROUTES_PATH.SignUp}>회원 가입</Link>
+      </Row>
     </>
   );
 }
