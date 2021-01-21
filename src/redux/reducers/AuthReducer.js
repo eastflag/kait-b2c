@@ -1,7 +1,7 @@
 const SET_USER = 'set_user';
 
 const AuthInitialState = {
-  user: ''
+  user: {id: 1}
 }
 
 export const setUser = (user) => ({

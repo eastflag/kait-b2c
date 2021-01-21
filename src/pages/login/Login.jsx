@@ -16,7 +16,6 @@ function Login(props) {
       </Row>
       <Form
         name="normal_login"
-        className="login-form"
         initialValues={{
           remember: true,
         }}
@@ -31,7 +30,7 @@ function Login(props) {
             },
           ]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Input prefix={<UserOutlined />} placeholder="Username" />
         </Form.Item>
         <Form.Item
           name="password"
@@ -43,7 +42,7 @@ function Login(props) {
           ]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={<LockOutlined />}
             type="password"
             placeholder="Password"
           />
@@ -59,7 +58,7 @@ function Login(props) {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button" block>
+          <Button type="primary" htmlType="submit" block>
             Log in
           </Button>
         </Form.Item>

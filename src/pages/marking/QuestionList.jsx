@@ -20,9 +20,9 @@ function QuestionList(props) {
   }, [])
 
   const getQuestions = async () => {
-    const category_id = 1;
+    const chapter_id = 1;
     const userId = 1;
-    const {data} = await api.get(`/api/question/${category_id}?userId=${userId}`);
+    const {data} = await api.get(`/api/question/chapter_id/${chapter_id}?userId=${userId}`);
     setOriginalQuestions(data);
     console.log(data);
 
