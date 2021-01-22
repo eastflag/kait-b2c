@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 
 import "./Main.scss";
 import {BookTwoTone} from "@ant-design/icons";
+import moment from "moment";
 
 function Main(props) {
   const user = useSelector(state => state.Auth.user);
@@ -19,10 +20,15 @@ function Main(props) {
     console.log(data);
 
     data.forEach(textbook => {
-      textbook['total_question'] = Number(textbook['total_question'])
-      textbook['total_progress'] = Number(textbook['total_progress'])
-      textbook['total_score'] = Number(textbook['total_score'])
-      textbook['status'] = !textbook['recent_date'] ? '미학습' : '학습중'
+      textbook['total_question'] = Number(textbook['total_question']);
+      textbook['total_progress'] = Number(textbook['total_progress']);
+      textbook['total_score'] = Number(textbook['total_score']);
+      textbook['status'] = !textbook['recent_date'] ? '미학습' : '학습중';
+      if (textbook['recent_date']) {
+        const today = moment();
+        const date = moment("2021-01-22T07:54:39.811Z");
+        textbook['recent_date_text'] = moment(textbook['recent_date']).from(today);
+      }
     })
 
     setTextbooks(data);
@@ -50,10 +56,10 @@ function Main(props) {
             <Col span={16}>
               {
                 textbook['status'] === '학습중' ? (
-                  <Space className="textbook_content" direction="vertical" size={16}>
+                  <Space className="textbook_content" direction="vertical" size={4}>
                     <Row>
                       <Col span={10}>진행률</Col>
-                      <Col span={14}>{textbook.total_question ? Math.round(textbook.total_progress/textbook.total_question * 100) + '%' : '미학습'}</Col>
+                      <Col span={14}>{Math.round(textbook.total_progress/textbook.total_question * 100)} %</Col>
                     </Row>
                     <Row>
                       <Col span={10}>정답률</Col>
@@ -61,11 +67,15 @@ function Main(props) {
                     </Row>
                     <Row>
                       <Col span={10}>최근학습</Col>
-                      <Col span={14}>13%</Col>
+                      <Col span={14}>{textbook['recent_date_text']}</Col>
                     </Row>
                     <Row>
                       <Col span={10}>남은문항</Col>
                       <Col span={14}>{textbook.total_question - textbook.total_progress} / {textbook.total_question} 문항</Col>
+                    </Row>
+                    <Row justify="space-between">
+                      <Button type="primary" ghost>학습하기</Button>
+                      <Button type="primary" ghost>채점결과</Button>
                     </Row>
                   </Space>
                 ) : (
