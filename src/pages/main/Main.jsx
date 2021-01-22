@@ -79,7 +79,9 @@ function Main(props) {
                     </Row>
                   </Space>
                 ) : (
-                  <Button type="primary" ghost block>학습시작</Button>
+                  <div style={{padding: '0 0.5rem 0 1.5rem'}}>
+                    <Button type="primary" ghost block>학습시작</Button>
+                  </div>
                 )
               }
             </Col>
