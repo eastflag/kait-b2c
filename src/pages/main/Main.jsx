@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Row, Col, Image, Space, Badge, Button} from "antd";
 import api from "../../utils/api";
 import {useSelector} from "react-redux";
-
+import {useHistory} from "react-router";
 import "./Main.scss";
-import {BookTwoTone} from "@ant-design/icons";
 import moment from "moment";
 
 function Main(props) {
   const user = useSelector(state => state.Auth.user);
   const [textbooks, setTextbooks] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     getTextbook();
@@ -74,7 +74,7 @@ function Main(props) {
                       <Col span={14}>{textbook.total_question - textbook.total_progress} / {textbook.total_question} 문항</Col>
                     </Row>
                     <Row justify="space-between">
-                      <Button type="primary" ghost>학습하기</Button>
+                      <Button type="primary" ghost onClick={() => history.push(`/chapter/${textbook.id}`)}>학습하기</Button>
                       <Button type="primary" ghost>채점결과</Button>
                     </Row>
                   </Space>

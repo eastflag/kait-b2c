@@ -7,6 +7,7 @@ import Marking from "./pages/marking/Marking";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signUp/SignUp";
 import Main from "./pages/main/Main";
+import Chapter from "./pages/chapter/Chapter";
 
 const { Content } = Layout;
 
@@ -19,6 +20,7 @@ function App(props) {
             <BrowserRouter>
               <Switch>
                 <PrivateRoute exact path={ROUTES_PATH.Main} component={Main}></PrivateRoute>
+                <PrivateRoute exact path={ROUTES_PATH.Chapter} component={Chapter}></PrivateRoute>
                 <PrivateRoute exact path={ROUTES_PATH.Marking} component={Marking}></PrivateRoute>
                 <Route exact path={ROUTES_PATH.Login} component={Login}></Route>
                 <Route exact path={ROUTES_PATH.SignUp} component={SignUp}></Route>
