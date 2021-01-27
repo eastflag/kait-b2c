@@ -12,7 +12,7 @@ import Result from "./pages/result/Result";
 
 const { Content } = Layout;
 
-function App(props) {4
+function App(props) {
   return (
     <Layout>
       <Content style={{padding: '0.5rem'}}>
