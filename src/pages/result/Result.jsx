@@ -47,7 +47,7 @@ function Result({match}) {
           <Space direction="vertical" align="center">
             <Text>정답</Text>
             <div style={{display: 'inline-block', padding: '0 2rem', border: '1px solid #bbbbbb', borderRadius: '2rem'}}>
-              <Text style={{fontSize: '4rem', color: 'blue'}}>{correct}</Text>
+              <Text strong style={{fontSize: '3rem', color: 'blue'}}>{correct}</Text>
             </div>
           </Space>
         </Col>
@@ -55,7 +55,7 @@ function Result({match}) {
           <Space direction="vertical" align="center">
             <Text>오답</Text>
             <div style={{display: 'inline-block', padding: '0 2rem', border: '1px solid #bbbbbb', borderRadius: '2rem'}}>
-              <Text style={{fontSize: '4rem', color: 'red'}}>{wrong}</Text>
+              <Text strong style={{fontSize: '3rem', color: 'red'}}>{wrong}</Text>
             </div>
           </Space>
         </Col>
@@ -63,11 +63,11 @@ function Result({match}) {
       <Row justify="space-around" style={{margin: '1rem 0 2rem 0'}}>
         <Space direction="vertical" align="center">
           <Text>정답률</Text>
-          <Text style={{fontSize: '2rem'}}>{correctRate}%</Text>
+          <Text strong style={{fontSize: '2rem'}}>{correctRate}%</Text>
         </Space>
         <Space direction="vertical" align="center">
           <Text>평균정답률</Text>
-          <Text style={{fontSize: '2rem'}}>{averageCorrectRate}%</Text>
+          <Text strong style={{fontSize: '2rem'}}>{averageCorrectRate}%</Text>
         </Space>
       </Row>
 

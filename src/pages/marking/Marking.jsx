@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Col, Layout, Row} from "antd";
+import {Typography, Layout} from "antd";
 import QuestionList from "./QuestionList";
 import './Marking.css';
 import api from "../../utils/api";
 import {useSelector} from "react-redux";
 
 const { Content } = Layout;
+const {Title, Text} = Typography;
 
 function Marking({match}) {
   const [originalQuestions, setOriginalQuestions] = useState([]);
@@ -78,7 +79,12 @@ function Marking({match}) {
   }
 
   return (
-    <QuestionList questions={questions} myAnswers={myAnswers} setMyAnswer={setMyAnswer} submit={submit}></QuestionList>
+    <Layout>
+      <Title level={4}>답안 입력</Title>
+      <Content style={{padding: '0 1rem'}}>
+        <QuestionList questions={questions} myAnswers={myAnswers} setMyAnswer={setMyAnswer} submit={submit}></QuestionList>
+      </Content>
+    </Layout>
   );
 }
 

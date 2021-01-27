@@ -27,11 +27,16 @@ function ObjectiveQuestion({example, answer, userAnswer, myAnswer, setSubMyAnswe
   }
 
   return example.replaceAll(' ', '')
-    .split(',').map((item, index) => <Col key={index}><Button shape={answerCount > 1 ? '' : 'circle'}
-                                                  type={myAnswer.indexOf(item) > -1 ? 'primary' : ''}
-                                                  className={classNames({'btn-disabled-selected ': userAnswer.indexOf(item) > -1})}
-                                                  disabled={userAnswer}
-                                                  onClick={() => onToggle(item)}>{item}</Button></Col>)
+    .split(',').map((item, index) =>
+      <Col key={index}>
+        <Button size="small"
+          shape={answerCount > 1 ? '' : 'circle'}
+          type={myAnswer.indexOf(item) > -1 ? 'primary' : ''}
+          className={classNames({'btn-disabled-selected ': userAnswer.indexOf(item) > -1})}
+          disabled={userAnswer}
+          onClick={() => onToggle(item)}>{item}
+        </Button>
+      </Col>)
 }
 
 export default ObjectiveQuestion;
