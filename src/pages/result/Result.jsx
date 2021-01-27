@@ -8,8 +8,8 @@ const {Title, Text} = Typography;
 
 function Result({match}) {
   const user = useSelector(state => state.Auth.user);
-  const [correctRate, setCorrectRate] = useState(0);
-  const [averageCorrectRate, setAverageCorrectRate] = useState(0);
+  const [correctRate, setCorrectRate] = useState('');
+  const [averageCorrectRate, setAverageCorrectRate] = useState('');
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
   const [answers, setAnswers] = useState([]);
@@ -25,7 +25,7 @@ function Result({match}) {
     const total = Number(res.data['total']);
     const score = Number(res.data['score']);
     if (total) {
-      setAverageCorrectRate(score/total*100);
+      setAverageCorrectRate((score/total*100).toFixed(1));
     }
 
     // 학생 정답율
@@ -34,7 +34,7 @@ function Result({match}) {
     const userScore = _.sumBy(data, 'score')
     setCorrect(userScore);
     setWrong(userTotal - score);
-    setCorrectRate(score / total * 100);
+    setCorrectRate((score / total * 100).toFixed(1));
 
     setAnswers(data);
   }

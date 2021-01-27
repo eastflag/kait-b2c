@@ -4,6 +4,7 @@ import QuestionList from "./QuestionList";
 import './Marking.css';
 import api from "../../utils/api";
 import {useSelector} from "react-redux";
+import {useHistory} from "react-router";
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -13,6 +14,7 @@ function Marking({match}) {
   const [questions, setQuestions] = useState([]);
   const [myAnswers, setMyAnswers] = useState([]);
 
+  const history = useHistory();
   const user = useSelector(state => state.Auth.user);
 
   useEffect(() => {
@@ -76,6 +78,7 @@ function Marking({match}) {
     console.log(dataList);
     const {data} = await api.post(`/api/user/submitAnswer?userId=${userId}`, dataList);
     console.log(data);
+    history.push(`/result/${match.params['chapter_id']}`);
   }
 
   return (
