@@ -1,12 +1,28 @@
 import React from 'react';
-import {Row, Form, Input, Button, Checkbox} from 'antd';
+import {Row, Form, Input, Button, Checkbox, message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {ROUTES_PATH} from "../../routes";
+import api from "../../utils/api";
+import {useHistory} from "react-router";
+import {useDispatch, useSelector} from "react-redux";
+import {setToken} from "../../redux/reducers/AuthReducer";
 
 function Login(props) {
-  const onFinish = values => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const onFinish = async (values) => {
     console.log('Received values of form: ', values);
+    const {data} = await api.post(`/api/unauth/login`, values);
+    console.log(data);
+    if (data.result === 0) {
+      // token save
+      dispatch(setToken(data.data.token))
+      history.push('/');
+    } else {
+      message.error('email and password do not match')
+    }
   };
 
   return (
@@ -22,15 +38,15 @@ function Login(props) {
         onFinish={onFinish}
       >
         <Form.Item
-          name="username"
+          name="email"
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
+              message: 'Please input your email!',
             },
           ]}
         >
-          <Input prefix={<UserOutlined />} placeholder="Username" />
+          <Input type="email" prefix={<UserOutlined />} placeholder="email" />
         </Form.Item>
         <Form.Item
           name="password"

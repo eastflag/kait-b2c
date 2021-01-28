@@ -5,6 +5,7 @@ import './Marking.css';
 import api from "../../utils/api";
 import {useSelector} from "react-redux";
 import {useHistory} from "react-router";
+import {jwtUtils} from "../../utils/jwtUtils";
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -15,14 +16,14 @@ function Marking({match}) {
   const [myAnswers, setMyAnswers] = useState([]);
 
   const history = useHistory();
-  const user = useSelector(state => state.Auth.user);
+  const token = useSelector(state => state.Auth.token);
 
   useEffect(() => {
     getQuestions(match.params['chapter_id']);
   }, [])
 
   const getQuestions = async (chapter_id) => {
-    const {data} = await api.get(`/api/question/chapter_id/${chapter_id}?userId=${user.id}`);
+    const {data} = await api.get(`/api/question/chapter_id/${chapter_id}?userId=${jwtUtils.getId(token)}`);
     setOriginalQuestions(data);
     console.log(data);
 

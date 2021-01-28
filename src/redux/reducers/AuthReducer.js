@@ -1,20 +1,20 @@
-const SET_USER = 'set_user';
+const SET_TOKEN = 'set_token';
 
 const AuthInitialState = {
-  user: {id: 1}
+  token: null
 }
 
-export const setUser = (user) => ({
-  type: SET_USER,
-  user
+export const setToken = (token) => ({
+  type: SET_TOKEN,
+  token
 })
 
 export const AuthReducer = (state = AuthInitialState, action) => {
   switch(action.type) {
-    case SET_USER:
+    case SET_TOKEN:
       return {
         ...state,
-        user: action.user
+        token: action.token
       }
     default:
       return state;

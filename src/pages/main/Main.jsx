@@ -5,9 +5,10 @@ import {useSelector} from "react-redux";
 import {useHistory} from "react-router";
 import "./Main.scss";
 import moment from "moment";
+import {jwtUtils} from "../../utils/jwtUtils";
 
 function Main(props) {
-  const user = useSelector(state => state.Auth.user);
+  const token = useSelector(state => state.Auth.token);
   const [textbooks, setTextbooks] = useState([]);
   const history = useHistory();
 
@@ -16,7 +17,7 @@ function Main(props) {
   }, [])
 
   const getTextbook = async () => {
-    const {data} = await api.get(`/api/user/getTextbook?userId=${user.id}`);
+    const {data} = await api.get(`/api/user/getTextbook?userId=${jwtUtils.getId(token)}`);
     console.log(data);
 
     data.forEach(textbook => {

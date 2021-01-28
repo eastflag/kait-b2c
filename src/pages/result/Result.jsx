@@ -3,11 +3,12 @@ import api from "../../utils/api";
 import {useSelector} from "react-redux";
 import {Typography, Row, Col, Card, Statistic, Button, Space} from "antd";
 import _ from "lodash";
+import {jwtUtils} from "../../utils/jwtUtils";
 
 const {Title, Text} = Typography;
 
 function Result({match}) {
-  const user = useSelector(state => state.Auth.user);
+  const token = useSelector(state => state.Auth.token);
   const [correctRate, setCorrectRate] = useState('');
   const [averageCorrectRate, setAverageCorrectRate] = useState('');
   const [correct, setCorrect] = useState(0);
@@ -29,7 +30,7 @@ function Result({match}) {
     }
 
     // 학생 정답율
-    const {data} = await api.get(`/api/user/result/chapter/${chapter_id}?userId=${user.id}`);
+    const {data} = await api.get(`/api/user/result/chapter/${chapter_id}?userId=${jwtUtils.getId(token)}`);
     const userTotal = data.length;
     const userScore = _.sumBy(data, 'score')
     setCorrect(userScore);
