@@ -23,10 +23,10 @@ function Chapter({match}) {
     console.log(categoryList);
     const reactNodeList = [];
     for (let key in categoryList) {
-      reactNodeList.push(<Title level={4} style={{margin: '1rem 0 0.3rem 0'}} key={key}>{key}</Title>);
+      reactNodeList.push(<Title level={4} style={{margin: '1rem 0 0.5rem 0'}} key={key}>{key}</Title>);
       categoryList[key].forEach(category => {
         reactNodeList.push(
-          <Row key={category.code} align="middle" onClick={() => history.push(`/marking/${category.id}`)}>
+          <Row key={category.code} align="middle" style={{margin: '0 0 0.5rem 0', cursor: 'pointer'}} onClick={() => history.push(`/marking/${category.id}`)}>
             <Col style={{width: '1rem'}}></Col>
             <Col>
               <Text>{category.code + '. '}</Text>
