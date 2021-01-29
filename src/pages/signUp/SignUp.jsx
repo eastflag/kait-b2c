@@ -1,5 +1,9 @@
 import React from 'react';
-import {Form, Input, Button, Checkbox} from "antd";
+import {Form, Input, Button, Checkbox, message, Row, Typography} from "antd";
+import api from "../../utils/api";
+import {useHistory} from "react-router";
+
+const {Title} = Typography;
 
 const formItemLayout = {
   labelCol: {
@@ -33,23 +37,32 @@ const tailFormItemLayout = {
 };
 
 function SignUp(props) {
+  const history = useHistory();
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Received values of form: ', values);
+    const {email, password} = values;
+    const {data} = await api.post(`/api/unauth/signUp`, {email, password});
+    console.log(data);
+    if (data.result === 0) {
+      // token save
+      history.push('/');
+    } else {
+      message.error(data.message);
+    }
   };
 
   return (
     <>
+      <Row justify="center" style={{marginTop: '1rem'}}>
+        <Title level={3}>회원가입</Title>
+      </Row>
       <Form
         {...formItemLayout}
         form={form}
         name="register"
         onFinish={onFinish}
-        initialValues={{
-          residence: ['zhejiang', 'hangzhou', 'xihu'],
-          prefix: '86',
-        }}
         scrollToFirstError
       >
         <Form.Item
@@ -58,11 +71,11 @@ function SignUp(props) {
           rules={[
             {
               type: 'email',
-              message: 'The input is not valid E-mail!',
+              message: '유효한 E-mail이 아닙니다!',
             },
             {
               required: true,
-              message: 'Please input your E-mail!',
+              message: 'E-mail을 입력해주세요!',
             },
           ]}
         >
@@ -71,11 +84,11 @@ function SignUp(props) {
 
         <Form.Item
           name="password"
-          label="Password"
+          label="패스워드"
           rules={[
             {
               required: true,
-              message: 'Please input your password!',
+              message: '패스워드를 입력해주세요!',
             },
           ]}
           hasFeedback
@@ -85,13 +98,13 @@ function SignUp(props) {
 
         <Form.Item
           name="confirm"
-          label="Confirm Password"
+          label="패스워드 확인"
           dependencies={['password']}
           hasFeedback
           rules={[
             {
               required: true,
-              message: 'Please confirm your password!',
+              message: '패스워드를 확인해주세요!',
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
@@ -99,7 +112,7 @@ function SignUp(props) {
                   return Promise.resolve();
                 }
 
-                return Promise.reject('The two passwords that you entered do not match!');
+                return Promise.reject('패스워드가 서로 일치하지 않습니다.!');
               },
             }),
           ]}
@@ -113,17 +126,17 @@ function SignUp(props) {
           rules={[
             {
               validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject('Should accept agreement'),
+                value ? Promise.resolve() : Promise.reject('약관에 동의 하세요.'),
             },
           ]}
           {...tailFormItemLayout}
         >
           <Checkbox>
-            I have read the <a href="">agreement</a>
+            약관을 읽고 동의합니다. {/*I have read the <a href="">agreement</a>*/}
           </Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" block>
             Register
           </Button>
         </Form.Item>
