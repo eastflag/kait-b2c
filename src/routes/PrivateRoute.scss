@@ -1,0 +1,14 @@
+.private_header {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #dddddd;
+  margin-bottom: 1rem;
+  box-shadow: 0 0.1rem 1rem #dddddd;
+  .header__title {
+    cursor: pointer;
+    font-size: 1.4rem;
+  }
+  .header__menu {
+    cursor: pointer;
+    font-size: 1.2rem;
+  }
+}

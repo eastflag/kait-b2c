@@ -15,7 +15,7 @@ const { Content } = Layout;
 function App(props) {
   return (
     <Layout>
-      <Content style={{padding: '0.5rem'}}>
+      <Content>
         <Row justify="center">
           <Col xs={24} sm={18} md={12} lg={10} xl={8}>
             <BrowserRouter>

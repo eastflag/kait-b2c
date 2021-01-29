@@ -54,7 +54,7 @@ function SignUp(props) {
   };
 
   return (
-    <>
+    <div style={{padding: '1rem'}}>
       <Row justify="center" style={{marginTop: '1rem'}}>
         <Title level={3}>회원가입</Title>
       </Row>
@@ -141,7 +141,7 @@ function SignUp(props) {
           </Button>
         </Form.Item>
       </Form>
-    </>
+    </div>
   );
 }
 

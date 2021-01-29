@@ -59,7 +59,7 @@ function Login(props) {
   };
 
   return (
-    <>
+    <div style={{padding: '1rem'}}>
       <Row justify="center" style={{marginTop: '1rem'}}>
         <Title level={3}>로그인</Title>
       </Row>
@@ -122,7 +122,7 @@ function Login(props) {
       <Row justify="end">
         <Link to={ROUTES_PATH.SignUp}>회원 가입</Link>
       </Row>
-    </>
+    </div>
   );
 }
 
