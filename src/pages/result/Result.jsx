@@ -34,8 +34,8 @@ function Result({match}) {
     const userTotal = data.length;
     const userScore = _.sumBy(data, 'score')
     setCorrect(userScore);
-    setWrong(userTotal - score);
-    setCorrectRate((score / total * 100).toFixed(1));
+    setWrong(userTotal - userScore);
+    setCorrectRate((userScore / userTotal * 100).toFixed(1));
 
     setAnswers(data);
   }

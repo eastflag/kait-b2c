@@ -51,7 +51,6 @@ function Marking({match}) {
   }
 
   const submit = async () => {
-    const userId = 1;
     console.log(myAnswers);
     const dataList = [];
     const regex = new RegExp("[0-9]+");
@@ -77,7 +76,7 @@ function Marking({match}) {
       }
     })
     console.log(dataList);
-    const {data} = await api.post(`/api/user/submitAnswer?userId=${userId}`, dataList);
+    const {data} = await api.post(`/api/user/submitAnswer?userId=${jwtUtils.getId(token)}`, dataList);
     console.log(data);
     history.push(`/result/${match.params['chapter_id']}`);
   }
