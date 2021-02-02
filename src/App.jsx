@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Col, Layout, Row} from "antd";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -10,10 +10,30 @@ import Main from "./pages/main/Main";
 import Chapter from "./pages/chapter/Chapter";
 import Result from "./pages/result/Result";
 import Chat from "./pages/chat/Chat";
+import {io} from 'socket.io-client';
 
 const { Content } = Layout;
 
+const socket = io('/chatServer');
+
 function App(props) {
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('connect')
+    });
+    socket.on('disconnect', () => {
+      console.log('disconnect')
+    });
+    socket.on('message', data => {
+      console.log('message: ', data)
+    });
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('message');
+    };
+  }, []);
+
   return (
     <Layout>
       <Content>
