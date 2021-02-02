@@ -40,6 +40,18 @@ function Result({match}) {
     setAnswers(data);
   }
 
+  const addChannel = () => {
+    window.Kakao.Channel.addChannel({
+      channelPublicId: '_zYxheK',
+    })
+  }
+
+  const gotoChannel = () => {
+    window.Kakao.Channel.chat({
+      channelPublicId: '_zYxheK'
+    });
+  }
+
   return (
     <>
       <Title level={3}>학습 결과</Title>
@@ -79,9 +91,9 @@ function Result({match}) {
             <Text>{answer.name}</Text>
             <Text>{answer.score ? 'O' : 'X'}</Text>
             <Space>
-              <Button type="primary" ghost shape="round" size="small">도입</Button>
-              <Button type="primary" ghost shape="round" size="small">풀이</Button>
-              <Button type="primary" ghost shape="round" size="small">채팅</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={addChannel}>도입</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={gotoChannel}>풀이</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={gotoChannel}>채팅</Button>
             </Space>
           </Row>
         ))
