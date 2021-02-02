@@ -4,7 +4,7 @@ import {jwtUtils} from "./jwtUtils";
 
 const instance = axios.create({
   // baseURL: process.env.NODE_ENV === 'production' ? '' : 'https://api.eastflag.co.kr'
-  baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8080'
+  baseURL: process.env.NODE_ENV === 'production' ? '' : ''
 })
 
 /**
