@@ -11,6 +11,7 @@ import Chapter from "./pages/chapter/Chapter";
 import Result from "./pages/result/Result";
 import Chat from "./pages/chat/Chat";
 import {io} from 'socket.io-client';
+import Channel from "./pages/channel/Channel";
 
 const { Content } = Layout;
 
@@ -46,6 +47,7 @@ function App(props) {
                 <PrivateRoute exact path={ROUTES_PATH.Marking} component={Marking}></PrivateRoute>
                 <PrivateRoute exact path={ROUTES_PATH.Result} component={Result}></PrivateRoute>
                 <PrivateRoute exact path={ROUTES_PATH.Chat} component={Chat}></PrivateRoute>
+                <PrivateRoute exact path={ROUTES_PATH.Channel} component={Channel}></PrivateRoute>
                 <Route exact path={ROUTES_PATH.Login} component={Login}></Route>
                 <Route exact path={ROUTES_PATH.SignUp} component={SignUp}></Route>
               </Switch>

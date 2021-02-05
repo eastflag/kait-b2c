@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {Typography, Row, Col, Card, Statistic, Button, Space} from "antd";
 import _ from "lodash";
 import {jwtUtils} from "../../utils/jwtUtils";
+import {useHistory} from "react-router";
 
 const {Title, Text} = Typography;
 
@@ -14,6 +15,7 @@ function Result({match}) {
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     getResult(match.params['chapter_id']);
@@ -46,10 +48,17 @@ function Result({match}) {
     })
   }
 
-  const gotoChannel = () => {
-    window.Kakao.Channel.chat({
-      channelPublicId: '_zYxheK'
-    });
+  const gotoChannel = async (answer, help) => {
+    console.log(answer);
+
+    const {data} = await api.get(`/api/question/id?questionId=${answer.questionId}`);
+    if (data && data.length > 0) {
+      // 저장
+      await api.post(`/api/user/saveChannelHistory?userId=${jwtUtils.getId(token)}&questionId=${answer.questionId}&type=${help}`);
+      // 이동
+      const {code, semester, page_number, name} = data[0];
+      history.push(`/channel?code=${code}&semester=${semester}&page_number=${page_number}&name=${name}&help=${help}`);
+    }
   }
 
   return (
@@ -91,9 +100,9 @@ function Result({match}) {
             <Text>{answer.name}</Text>
             <Text>{answer.score ? 'O' : 'X'}</Text>
             <Space>
-              <Button type="primary" ghost shape="round" size="small" onClick={addChannel}>도입</Button>
-              <Button type="primary" ghost shape="round" size="small" onClick={gotoChannel}>풀이</Button>
-              <Button type="primary" ghost shape="round" size="small" onClick={gotoChannel}>채팅</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChannel(answer, 'intro')}>도입</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChannel(answer, 'solve')}>풀이</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChannel(answer, 'chat')}>채팅</Button>
             </Space>
           </Row>
         ))
