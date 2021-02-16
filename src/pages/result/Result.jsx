@@ -24,7 +24,7 @@ function Result({match}) {
   const getResult = async (chapter_id) => {
     // 전체 정답율 total, score
     const res = await api.get(`/api/answer/result/${chapter_id}`);
-    console.log(res.data);
+    // console.log(res.data);
     const total = Number(res.data['total']);
     const score = Number(res.data['score']);
     if (total) {
@@ -49,7 +49,7 @@ function Result({match}) {
   }
 
   const gotoChannel = async (answer, help) => {
-    console.log(answer);
+    // console.log(answer);
 
     const {data} = await api.get(`/api/question/id?questionId=${answer.questionId}`);
     if (data && data.length > 0) {
@@ -59,6 +59,15 @@ function Result({match}) {
       const {code, semester, page_number, name} = data[0];
       history.push(`/channel?code=${code}&semester=${semester}&page_number=${page_number}&name=${name}&help=${help}`);
     }
+  }
+
+  const gotoChat = async (answer) => {
+    const {data} = await api.get(`/api/question/id?questionId=${answer.questionId}`);
+
+    const {code, semester, page_number, textbook_name, name} = data;
+    const questionName = `${textbook_name} ${semester} ${name}`;
+
+    history.push(`/chat?userId=${jwtUtils.getId(token)}&questionId=${answer.questionId}&userName=${jwtUtils.getName(token)}&questionName=${questionName}`);
   }
 
   return (
@@ -100,9 +109,9 @@ function Result({match}) {
             <Text>{answer.name}</Text>
             <Text>{answer.score ? 'O' : 'X'}</Text>
             <Space>
-              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChannel(answer, 'intro')}>도입</Button>
-              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChannel(answer, 'solve')}>풀이</Button>
-              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChannel(answer, 'chat')}>채팅</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChat(answer, 'intro')}>도입</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChat(answer, 'solve')}>풀이</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChat(answer, 'chat')}>채팅</Button>
             </Space>
           </Row>
         ))

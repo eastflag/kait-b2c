@@ -6,7 +6,7 @@ export const jwtUtils = {
       return false;
     }
     const decoded = jwtDecode(token);
-    console.log(decoded);
+    // console.log(decoded);
     if (decoded.exp > new Date().getTime() / 1000) {
       return true;
     } else {
@@ -16,5 +16,9 @@ export const jwtUtils = {
   getId: (token) => {
     const decoded = jwtDecode(token)
     return decoded.id;
+  },
+  getName: (token) => {
+    const decoded = jwtDecode(token)
+    return decoded.name;
   }
 }
