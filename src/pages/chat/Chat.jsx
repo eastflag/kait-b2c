@@ -5,7 +5,7 @@ import queryString from "query-string";
 import ChatInput from "./ChatInput";
 import Messages from "./Messages";
 import {useDispatch, useSelector} from "react-redux";
-import {addMessage} from "../../redux/reducers/ChatReducer";
+import {addMessage, setMessages} from "../../redux/reducers/ChatReducer";
 import {jwtUtils} from "../../utils/jwtUtils";
 
 const {Text} = Typography;
@@ -21,6 +21,8 @@ function Chat({location}) {
 
   useEffect(() => {
     socket = io('/chatServer');
+
+    dispatch(setMessages([]));
 
     const room = queryString.parse(location.search);
     setQueryParams(room);
