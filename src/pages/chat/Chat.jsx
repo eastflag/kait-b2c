@@ -4,6 +4,8 @@ import {notification, Typography} from "antd";
 import queryString from "query-string";
 import ChatInput from "./ChatInput";
 import Messages from "./Messages";
+import {useDispatch} from "react-redux";
+import {addMessage} from "../../redux/reducers/ChatReducer";
 
 const {Text} = Typography;
 
@@ -12,7 +14,8 @@ let socket;
 function Chat({location}) {
   const [queryParams, setQueryParams] = useState({});
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     socket = io('/chatServer');
@@ -21,10 +24,8 @@ function Chat({location}) {
     setQueryParams(room);
 
     socket.on('message', (msgJson, error) => {
-      console.log('messages: ', messages);
       console.log('message: ', msgJson);
-
-      setMessages([...messages, msgJson ]);
+      dispatch(addMessage(msgJson));
     });
 
     socket.emit('join', room, (error) => {
@@ -56,7 +57,7 @@ function Chat({location}) {
         <Text strong>{queryParams['questionName']}</Text>
       </div>
 
-      <Messages messages={messages}></Messages>
+      <Messages></Messages>
       <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage}></ChatInput>
     </div>
   );

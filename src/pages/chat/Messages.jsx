@@ -2,8 +2,11 @@ import React, {useEffect} from 'react';
 import Message from "./Message";
 
 import './Messages.scss';
+import {useSelector} from "react-redux";
 
-function Messages({messages}) {
+function Messages() {
+  const messages = useSelector(state => state.Chat.messages);
+
   useEffect(() => {
     const messagesSelector = document.querySelector('.messages');
     messagesSelector.scrollTop = messagesSelector.scrollHeight;
