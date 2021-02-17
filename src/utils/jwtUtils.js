@@ -20,5 +20,9 @@ export const jwtUtils = {
   getName: (token) => {
     const decoded = jwtDecode(token)
     return decoded.name;
-  }
+  },
+  getRoles: (token) => {
+    const decoded = jwtDecode(token)
+    return decoded['roles'];
+  },
 }

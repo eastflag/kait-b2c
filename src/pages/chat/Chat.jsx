@@ -4,14 +4,16 @@ import {notification, Typography} from "antd";
 import queryString from "query-string";
 import ChatInput from "./ChatInput";
 import Messages from "./Messages";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addMessage} from "../../redux/reducers/ChatReducer";
+import {jwtUtils} from "../../utils/jwtUtils";
 
 const {Text} = Typography;
 
 let socket;
 
 function Chat({location}) {
+  const token = useSelector(state => state.Auth.token);
   const [queryParams, setQueryParams] = useState({});
   const [message, setMessage] = useState('');
 
@@ -28,7 +30,13 @@ function Chat({location}) {
       dispatch(addMessage(msgJson));
     });
 
-    socket.emit('join', room, (error) => {
+    socket.emit('join', {
+      userId: jwtUtils.getId(token),
+      questionId: room.questionId,
+      userName: jwtUtils.getName(token),
+      questionName: room.questionName,
+      roleName: jwtUtils.getName(token).indexOf('teacher') >= 0 ? 'teacher' : 'user'
+    }, (error) => {
       if(error) {
         notification.open({
           message: <span className="error-msg-title">An Error Has Occurred</span>,

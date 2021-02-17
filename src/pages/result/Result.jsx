@@ -67,7 +67,7 @@ function Result({match}) {
     const {code, semester, page_number, textbook_name, name} = data;
     const questionName = `${textbook_name} ${semester} ${name}`;
 
-    history.push(`/chat?userId=${jwtUtils.getId(token)}&questionId=${answer.questionId}&userName=${jwtUtils.getName(token)}&questionName=${questionName}`);
+    history.push(`/chat?questionId=${answer.questionId}&questionName=${questionName}`);
   }
 
   return (
