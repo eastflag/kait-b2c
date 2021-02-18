@@ -1,16 +1,25 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Message from "./Message";
 
 import './Messages.scss';
 import {useSelector} from "react-redux";
 
-function Messages() {
-  const messages = useSelector(state => state.Chat.messages);
+function Messages({questionId}) {
+  const total_messages = useSelector(state => state.Chat.total_messages);
+  const [messages, setMessages] = useState([])
+
+  useEffect(() => {
+    const room = total_messages.find(item => item.questionId === questionId);
+    console.log(room);
+    if (room) {
+      setMessages(room.messages);
+    }
+  }, [total_messages])
 
   useEffect(() => {
     const messagesSelector = document.querySelector('.messages');
     messagesSelector.scrollTop = messagesSelector.scrollHeight;
-  }, [messages]);
+  }, [total_messages]);
 
   return (
     <div className="messages">

@@ -7,6 +7,7 @@ import Messages from "./Messages";
 import {useDispatch, useSelector} from "react-redux";
 import {addMessage, setMessages} from "../../redux/reducers/ChatReducer";
 import {jwtUtils} from "../../utils/jwtUtils";
+import api from "../../utils/api";
 
 const {Text} = Typography;
 
@@ -14,7 +15,8 @@ let socket;
 
 function Chat({location}) {
   const token = useSelector(state => state.Auth.token);
-  const [queryParams, setQueryParams] = useState({});
+  const [questionId, setQuestionId] = useState('');
+  const [questionName, setQuestionName] = useState('');
   const [message, setMessage] = useState('');
 
   const dispatch = useDispatch();
@@ -22,35 +24,46 @@ function Chat({location}) {
   useEffect(() => {
     socket = io('/chatServer');
 
-    dispatch(setMessages([]));
-
-    const room = queryString.parse(location.search);
-    setQueryParams(room);
+    // {questionId, questionName}
+    const {questionId, questionName} = queryString.parse(location.search);
+    setQuestionId(questionId);
+    setQuestionName(questionName);
 
     socket.on('message', (msgJson, error) => {
       console.log('message: ', msgJson);
-      dispatch(addMessage(msgJson));
+      dispatch(addMessage({questionId, message: msgJson}));
     });
 
-    socket.emit('join', {
-      userId: jwtUtils.getId(token),
-      questionId: room.questionId,
-      userName: jwtUtils.getName(token),
-      questionName: room.questionName,
-      roleName: jwtUtils.getName(token).indexOf('teacher') >= 0 ? 'teacher' : 'user'
-    }, (error) => {
-      if(error) {
-        notification.open({
-          message: <span className="error-msg-title">An Error Has Occurred</span>,
-          description: error,
-          duration: 10,
-        });
-      }
-    });
+    getChatHistory(questionId)
+      .then(() => {
+      socket.emit('join', {
+        userId: jwtUtils.getId(token),
+        questionId: questionId,
+        userName: jwtUtils.getName(token),
+        questionName: questionName,
+        roleName: jwtUtils.getName(token).indexOf('teacher') >= 0 ? 'teacher' : 'user'
+      }, (error) => {
+        if(error) {
+          notification.open({
+            message: <span className="error-msg-title">An Error Has Occurred</span>,
+            description: error,
+            duration: 10,
+          });
+        }
+      });
+    })
+
     return () => {
       socket.close();
     };
   }, []);
+
+  const getChatHistory = async (questionId) => {
+    const {data} = await api.get(`/api/chat/chatHistory?questionId=${questionId}`);
+    console.log(data);
+
+    dispatch(setMessages({questionId, messages: data}));
+  }
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -64,10 +77,10 @@ function Chat({location}) {
   return (
     <div>
       <div style={{borderBottom: '1px solid #dddddd'}}>
-        <Text strong>{queryParams['questionName']}</Text>
+        <Text strong>{questionName}</Text>
       </div>
 
-      <Messages></Messages>
+      <Messages questionId={questionId}></Messages>
       <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage}></ChatInput>
     </div>
   );

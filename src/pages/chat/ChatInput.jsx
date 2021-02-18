@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input, Button} from "antd"
+import {Input, Button, Upload} from "antd"
 
 import './ChatInput.scss';
 
@@ -23,6 +23,11 @@ function ChatInput({message, setMessage, sendMessage}) {
       >
         Send
       </Button>
+{/*      <Upload
+        {...props}
+      >
+        <Button size="large" className="upload-button">Upload</Button>
+      </Upload>*/}
     </form>
   );
 }
