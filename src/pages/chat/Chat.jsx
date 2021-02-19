@@ -41,7 +41,7 @@ function Chat({location}) {
         questionId: questionId,
         userName: jwtUtils.getName(token),
         questionName: questionName,
-        roleName: jwtUtils.getName(token).indexOf('teacher') >= 0 ? 'teacher' : 'user'
+        roleName: jwtUtils.getRoles(token).indexOf('teacher') >= 0 ? 'teacher' : 'user'
       }, (error) => {
         if(error) {
           notification.open({
