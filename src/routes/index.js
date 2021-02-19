@@ -5,6 +5,8 @@ export const ROUTES_PATH = {
   Result: "/result/:chapter_id",
   Channel: "/channel",
   Chat: "/chat",
+  UserRoom: "/user_room",
+  TeacherRoom: "/teacher_room",
   Login: "/login",
   SignUp: "/signUp"
 }

@@ -11,6 +11,8 @@ import Chapter from "./pages/chapter/Chapter";
 import Result from "./pages/result/Result";
 import Chat from "./pages/chat/Chat";
 import Channel from "./pages/channel/Channel";
+import UserRoom from "./pages/room/UserRoom";
+import TeacherRoom from "./pages/room/TeacherRoom";
 
 const { Content } = Layout;
 
@@ -28,6 +30,8 @@ function App(props) {
                 <PrivateRoute exact path={ROUTES_PATH.Result} component={Result}></PrivateRoute>
                 <PrivateRoute exact path={ROUTES_PATH.Chat} component={Chat}></PrivateRoute>
                 <PrivateRoute exact path={ROUTES_PATH.Channel} component={Channel}></PrivateRoute>
+                <PrivateRoute exact path={ROUTES_PATH.UserRoom} component={UserRoom}></PrivateRoute>
+                <PrivateRoute exact path={ROUTES_PATH.TeacherRoom} component={TeacherRoom}></PrivateRoute>
                 <Route exact path={ROUTES_PATH.Login} component={Login}></Route>
                 <Route exact path={ROUTES_PATH.SignUp} component={SignUp}></Route>
               </Switch>
