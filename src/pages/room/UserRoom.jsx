@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import api from "../../utils/api";
 import {jwtUtils} from "../../utils/jwtUtils";
-import {List, Typography, Avatar, Button, Popconfirm} from "antd";
+import {List, Typography, Avatar, Button, Popconfirm, Badge} from "antd";
 import {UserOutlined} from '@ant-design/icons';
 import {ROUTES_PATH} from "../../routes";
 import {useHistory} from "react-router-dom";
@@ -42,7 +42,9 @@ function UserRoom(props) {
         <List.Item key={item.id}>
           <List.Item.Meta
             avatar={
-              <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+              <Badge count={item.roleName === 'teacher' ? 1 : 0}>
+                <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+              </Badge>
             }
             title={item.questionName}
 /*            description={item.questionName}*/
