@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {io} from "socket.io-client";
+import React, {useContext, useEffect, useState} from 'react';
 import {notification, Typography} from "antd";
 import queryString from "query-string";
 import ChatInput from "./ChatInput";
@@ -8,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addMessage, setMessages} from "../../redux/reducers/ChatReducer";
 import {jwtUtils} from "../../utils/jwtUtils";
 import api from "../../utils/api";
+import {SocketContext} from "../../context/socket";
 
 const {Text} = Typography;
 
@@ -21,9 +21,9 @@ function Chat({location}) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    socket = io('/chatServer');
+  const socket = useContext(SocketContext);
 
+  useEffect(() => {
     // {questionId, questionName}
     const {questionId, questionName} = queryString.parse(location.search);
     setQuestionId(questionId);
@@ -34,29 +34,29 @@ function Chat({location}) {
       dispatch(addMessage({questionId, message: msgJson}));
     });
 
-    getChatHistory(questionId)
-      .then(() => {
-      socket.emit('join', {
-        userId: jwtUtils.getId(token),
-        questionId: questionId,
-        userName: jwtUtils.getName(token),
-        questionName: questionName,
-        roleName: jwtUtils.getRoles(token).indexOf('teacher') >= 0 ? 'teacher' : 'user'
-      }, (error) => {
-        if(error) {
-          notification.open({
-            message: <span className="error-msg-title">An Error Has Occurred</span>,
-            description: error,
-            duration: 10,
-          });
-        }
-      });
-    })
+    getChatHistory(questionId);
+
+    socket.emit('join', {
+      userId: jwtUtils.getId(token),
+      questionId: questionId,
+      userName: jwtUtils.getName(token),
+      questionName: questionName,
+      roleName: jwtUtils.getRoles(token).indexOf('teacher') >= 0 ? 'teacher' : 'user'
+    }, (error) => {
+      if(error) {
+        notification.open({
+          message: <span className="error-msg-title">An Error Has Occurred</span>,
+          description: error,
+          duration: 10,
+        });
+      }
+    });
 
     return () => {
-      socket.close();
+      socket.off('message');
+      socket.emit('leave', {questionId});
     };
-  }, []);
+  }, [socket]);
 
   const getChatHistory = async (questionId) => {
     const {data} = await api.get(`/api/chat/chatHistory?questionId=${questionId}`);
