@@ -3,14 +3,14 @@ import {Route, Redirect, Link, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {ROUTES_PATH} from "./index";
 import {jwtUtils} from "../utils/jwtUtils";
-import {Layout, Row, Dropdown, Menu, Button, Typography, Space} from "antd";
+import {Layout, Row, Dropdown, Menu, Typography, Space} from "antd";
 import {MenuOutlined, HomeTwoTone, TeamOutlined, QuestionCircleTwoTone} from '@ant-design/icons';
 
 import './PrivateRoute.scss';
 import {setToken} from "../redux/reducers/AuthReducer";
-import {socket, SocketContext, socketCreator} from "../context/socket";
+import {SocketContext, socketCreator} from "../context/socket";
 
-const {Header, Content} = Layout;
+const {Content} = Layout;
 const {Text} = Typography;
 
 const PrivateRoute = (props) => {
@@ -22,11 +22,21 @@ const PrivateRoute = (props) => {
   const token = useSelector(state => state.Auth.token);
 
   useEffect(() => {
+    if (!jwtUtils.isAuth(token)) {
+      return;
+    }
     setSocket(socketCreator());
     return () => {
-      socket.close();
+      if (socket) {
+        socket.close();
+      }
     }
   }, [])
+
+  // view가 리턴되지 않도록 한다. 이후에 useEffect가 실행된다.
+  if (!jwtUtils.isAuth(token)) {
+    return <Redirect to={ROUTES_PATH.Login} />
+  }
 
   const logout = () => {
     dispatch(setToken(''))
@@ -64,12 +74,8 @@ const PrivateRoute = (props) => {
         <Content style={{padding: '0 0.5rem'}}>
           <Route
             {...rest}
-            render={routeProps =>
-              jwtUtils.isAuth(token) ? (
-                <RouteComponent {...routeProps} />
-              ) : (
-                <Redirect to={ROUTES_PATH.Login} />
-              )
+            render={
+              routeProps => <RouteComponent {...routeProps} />
             }
           />
         </Content>
