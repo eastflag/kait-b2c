@@ -24,6 +24,9 @@ function Chat({location}) {
   const socket = useContext(SocketContext);
 
   useEffect(() => {
+    if (!socket) {
+      return;
+    }
     // {questionId, questionName}
     const {questionId, questionName} = queryString.parse(location.search);
     setQuestionId(questionId);

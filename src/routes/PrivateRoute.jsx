@@ -3,7 +3,7 @@ import {Route, Redirect, Link, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {ROUTES_PATH} from "./index";
 import {jwtUtils} from "../utils/jwtUtils";
-import {Layout, Row, Dropdown, Menu, Typography, Space} from "antd";
+import {Layout, Row, Dropdown, Menu, Typography, Space, notification} from "antd";
 import {MenuOutlined, HomeTwoTone, TeamOutlined, QuestionCircleTwoTone} from '@ant-design/icons';
 
 import './PrivateRoute.scss';
@@ -32,6 +32,24 @@ const PrivateRoute = (props) => {
       }
     }
   }, [])
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+    socket.emit('login', {
+      userId: jwtUtils.getId(token),
+      roleName: jwtUtils.getRoles(token).indexOf('teacher') >= 0 ? 'teacher' : 'user'
+    }, (error) => {
+      if(error) {
+        notification.open({
+          message: <span className="error-msg-title">An Error Has Occurred</span>,
+          description: error,
+          duration: 10,
+        });
+      }
+    });
+  }, [socket])
 
   // 아래 view가 리턴되지 않도록 한다. jwtUtils.getRoles() 실행시 에러 발생함.
   // 이후에 useEffect가 실행된다.
