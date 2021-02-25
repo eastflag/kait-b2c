@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 import {AuthReducer} from "./AuthReducer";
 import {combineReducers} from "redux";
 import {ChatReducer} from "./ChatReducer";
+import {AlarmReducer} from "./AlarmReducer";
 
 const persistConfig = {
   key: "root",
@@ -13,6 +14,6 @@ const persistConfig = {
   // blacklist -> 그것만 제외합니다
 };
 
-const allReducers = combineReducers({Auth: AuthReducer, Chat: ChatReducer});
+const allReducers = combineReducers({Auth: AuthReducer, Chat: ChatReducer, Alarm: AlarmReducer});
 
 export default persistReducer(persistConfig, allReducers);

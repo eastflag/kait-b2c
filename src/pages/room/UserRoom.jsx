@@ -1,20 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import api from "../../utils/api";
 import {jwtUtils} from "../../utils/jwtUtils";
 import {List, Typography, Avatar, Button, Popconfirm, Badge} from "antd";
 import {UserOutlined} from '@ant-design/icons';
 import {ROUTES_PATH} from "../../routes";
 import {useHistory} from "react-router-dom";
+import {decreaseAlarmbyTeacher} from "../../redux/reducers/AlarmReducer";
 
 function UserRoom(props) {
   const token = useSelector(state => state.Auth.token);
   const [roomList, setRoomList] = useState([]);
   const history = useHistory();
+  const alarmByTeacher = useSelector(state => state.Alarm.alarm_by_teacher)
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     getRoomsOfUser();
-  }, [])
+  }, [alarmByTeacher])
 
   const getRoomsOfUser = async () => {
     const {data} = await api.get(`/api/chat/roomsOfUser?userId=${jwtUtils.getId(token)}`);
@@ -33,6 +37,13 @@ function UserRoom(props) {
     getRoomsOfUser();
   }
 
+  const gotoChat = (room) => {
+    if (jwtUtils.getRoles(token).indexOf('teacher') < 0 && room.isRead === 0) {
+      dispatch(decreaseAlarmbyTeacher());
+    }
+    history.push(`${ROUTES_PATH.Chat}?questionId=${room.questionId}&questionName=${room.questionName}`)
+  }
+
   return (
     <List
       header={<div>질문리스트</div>}
@@ -42,7 +53,7 @@ function UserRoom(props) {
         <List.Item key={item.id}>
           <List.Item.Meta
             avatar={
-              <Badge count={item.roleName === 'teacher' ? 1 : 0}>
+              <Badge count={item.roleName === 'teacher' && item.isRead ===  0 ? 1 : 0}>
                 <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
               </Badge>
             }
@@ -58,7 +69,7 @@ function UserRoom(props) {
           >
             <Button type="text" danger>방나가기</Button>
           </Popconfirm>
-          <Button type="primary" ghost onClick={() => history.push(`${ROUTES_PATH.Chat}?questionId=${item.questionId}&questionName=${item.questionName}`)}>방입장</Button>
+          <Button type="primary" ghost onClick={() => gotoChat(item)}>방입장</Button>
         </List.Item>
       )}
     >
