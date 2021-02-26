@@ -10,7 +10,7 @@ import _ from 'lodash';
 import './PrivateRoute.scss';
 import {setToken} from "../redux/reducers/AuthReducer";
 import {SocketContext, socketCreator} from "../context/socket";
-import {setAlarmbyTeacher} from "../redux/reducers/AlarmReducer";
+import {resetAlarmbyUser, setAlarmbyTeacher, setAlarmbyUser} from "../redux/reducers/AlarmReducer";
 import api from "../utils/api";
 
 const {Content} = Layout;
@@ -23,7 +23,8 @@ const PrivateRoute = (props) => {
   const { component: RouteComponent, ...rest } = props;
 
   const token = useSelector(state => state.Auth.token);
-  const alarmByTeacher = useSelector(state => state.Alarm.alarm_by_teacher)
+  const alarmByTeacher = useSelector(state => state.Alarm.alarm_by_teacher);
+  const alarmByUser = useSelector(state => state.Alarm.alarm_by_user);
 
   useEffect(() => {
     if (!jwtUtils.isAuth(token)) {
@@ -59,18 +60,25 @@ const PrivateRoute = (props) => {
       console.log(msg);
       setAlarm();
     });
+
+    socket.on('alarm_by_user', (msg) => {
+      console.log(msg);
+      setAlarm();
+    });
   }, [socket])
 
   const setAlarm = async () => {
     if (jwtUtils.getRoles(token).indexOf('teacher') >= 0) {
-
+      const {data} = await api.get(`/api/chat/roomsOfTeacher`);
+      console.log(data);
+      const count = data.filter(room => room.roleName === 'user').length;
+      dispatch(setAlarmbyUser(count));
     } else { // user 알람: 선생님이 전달한 알람.
       const {data} = await api.get(`/api/chat/roomsOfUser?userId=${jwtUtils.getId(token)}`);
       const count = data.filter(room => room.isRead === 0).length;
       console.log(count);
       dispatch(setAlarmbyTeacher(count));
     }
-
   }
 
   // 아래 view가 리턴되지 않도록 한다. jwtUtils.getRoles() 실행시 에러 발생함.
@@ -102,7 +110,9 @@ const PrivateRoute = (props) => {
           <Space size="large" align="center">
             {
               jwtUtils.getRoles(token).indexOf('teacher') > -1 ?
-                <TeamOutlined onClick={() => history.push(ROUTES_PATH.TeacherRoom)} className="header__menu"></TeamOutlined> :
+                <Badge count={alarmByUser}>
+                  <TeamOutlined onClick={() => history.push(ROUTES_PATH.TeacherRoom)} className="header__menu"></TeamOutlined>
+                </Badge>:
                 <Badge count={alarmByTeacher}>
                   <QuestionCircleTwoTone onClick={() => history.push(ROUTES_PATH.UserRoom)} className="header__menu" />
                 </Badge>
