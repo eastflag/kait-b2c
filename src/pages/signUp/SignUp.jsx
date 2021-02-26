@@ -42,8 +42,8 @@ function SignUp(props) {
 
   const onFinish = async (values) => {
     console.log('Received values of form: ', values);
-    const {email, password} = values;
-    const {data} = await api.post(`/api/unauth/signUp`, {email, password});
+    const {email, name, password} = values;
+    const {data} = await api.post(`/api/unauth/signUp`, {email, name, password});
     console.log(data);
     if (data.result === 0) {
       // token save
@@ -76,6 +76,19 @@ function SignUp(props) {
             {
               required: true,
               message: 'E-mail을 입력해주세요!',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="name"
+          label="이름"
+          rules={[
+            {
+              required: true,
+              message: '이름을 입력해주세요!',
             },
           ]}
         >
