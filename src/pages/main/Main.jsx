@@ -46,7 +46,7 @@ function Main(props) {
           <Row key={textbook.id} className="textbook" align="middle">
             <Col span={8}>
               <div style={{padding: '1.3rem 0.3rem'}}>
-                <Badge count={textbook.total_question - textbook.total_progress}>
+                <Badge count={textbook.status === '학습중' ? (textbook.total_question - textbook.total_progress) : 0} overflowCount={999}>
                   <Image
                     className="textbook_image"
                     src={textbook.image_url}
