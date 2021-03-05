@@ -7,6 +7,7 @@ import {useHistory} from "react-router";
 const {Title, Text} = Typography;
 
 function Chapter({match}) {
+  const [textbook, setTextbook] = useState({name: '', semester: ''});
   const [categorys, setCategorys] = useState([]);
   const history = useHistory();
 
@@ -16,6 +17,15 @@ function Chapter({match}) {
   }, [])
 
   const getChapter = async (textbook_id) => {
+    const res = await api.get(`/api/textbook/${textbook_id}`);
+    console.log(res.data);
+    if (res.data) {
+      setTextbook({
+        name: res.data.name,
+        semester: res.data.semester
+      });
+    }
+
     const {data} = await api.get(`/api/chapter/textbook_id/${textbook_id}`);
     console.log(data);
 
@@ -49,6 +59,9 @@ function Chapter({match}) {
   return (
     <>
       <h2>단원 선택</h2>
+      <Row justify="center">
+        <Title level={2}>{`${textbook.name} ${textbook.semester}학기`}</Title>
+      </Row>
       {
         categorys
       }

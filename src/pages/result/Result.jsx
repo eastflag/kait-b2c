@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import api from "../../utils/api";
 import {useSelector} from "react-redux";
-import {Typography, Row, Col, Card, Statistic, Button, Space} from "antd";
+import {Typography, Row, Col, Card, Statistic, Button, Space, Layout} from "antd";
 import _ from "lodash";
 import {jwtUtils} from "../../utils/jwtUtils";
 import {useHistory} from "react-router";
@@ -9,6 +9,13 @@ import {useHistory} from "react-router";
 const {Title, Text} = Typography;
 
 function Result({match}) {
+  const [textbook, setTextbook] = useState({
+    name: '',
+    semester: '',
+    category: '',
+    categoryCode: '',
+    categoryName: ''
+  })
   const token = useSelector(state => state.Auth.token);
   const [correctRate, setCorrectRate] = useState('');
   const [averageCorrectRate, setAverageCorrectRate] = useState('');
@@ -22,11 +29,23 @@ function Result({match}) {
   }, [])
 
   const getResult = async (chapter_id) => {
+    const res = await api.get(`/api/chapter/detail/${chapter_id}}`);
+    console.log(res.data);
+    if (res.data) {
+      setTextbook({
+        name: res.data.name,
+        semester: res.data.semester,
+        category: res.data.chapters[0].category,
+        categoryCode: res.data.chapters[0].code,
+        categoryName: res.data.chapters[0].name
+      });
+    }
+
     // 전체 정답율 total, score
-    const res = await api.get(`/api/answer/result/${chapter_id}`);
+    const res2 = await api.get(`/api/answer/result/${chapter_id}`);
     // console.log(res.data);
-    const total = Number(res.data['total']);
-    const score = Number(res.data['score']);
+    const total = Number(res2.data['total']);
+    const score = Number(res2.data['score']);
     if (total) {
       setAverageCorrectRate((score/total*100).toFixed(1));
     }
@@ -72,7 +91,10 @@ function Result({match}) {
 
   return (
     <>
-      <Title level={3}>학습 결과</Title>
+      <Title style={{fontSize: '1.4rem', margin: '0 0 0.5rem 0'}}>{`${textbook.name} ${textbook.semester}`}</Title>
+      <Title style={{fontSize: '1.4rem', margin: '0 0 0.5rem 0', paddingLeft: '2rem'}}>{`${textbook.category}`}</Title>
+      <Title style={{fontSize: '1.4rem', margin: '0 0 1rem 0', paddingLeft: '4rem'}}>{`${textbook.categoryCode} ${textbook.categoryName}`}</Title>
+      <h2>학습 결과</h2>
       <Row gutter={16} justify="center">
         <Col>
           <Space direction="vertical" align="center">
@@ -102,7 +124,7 @@ function Result({match}) {
         </Space>
       </Row>
 
-      <Title level={3}>문항별 정오</Title>
+      <h2>문항별 정오</h2>
       {
         answers.map(answer => (
           <Row key={answer.name} justify="space-between" align="middle" style={{margin: '0.3rem'}}>

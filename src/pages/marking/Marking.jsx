@@ -11,6 +11,13 @@ const { Content } = Layout;
 const {Title, Text} = Typography;
 
 function Marking({match}) {
+  const [textbook, setTextbook] = useState({
+    name: '',
+    semester: '',
+    category: '',
+    categoryCode: '',
+    categoryName: ''
+  })
   const [originalQuestions, setOriginalQuestions] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [myAnswers, setMyAnswers] = useState([]);
@@ -23,6 +30,18 @@ function Marking({match}) {
   }, [])
 
   const getQuestions = async (chapter_id) => {
+    const res = await api.get(`/api/chapter/detail/${chapter_id}}`);
+    console.log(res.data);
+    if (res.data) {
+      setTextbook({
+        name: res.data.name,
+        semester: res.data.semester,
+        category: res.data.chapters[0].category,
+        categoryCode: res.data.chapters[0].code,
+        categoryName: res.data.chapters[0].name
+      });
+    }
+
     const {data} = await api.get(`/api/question/chapter_id/${chapter_id}?userId=${jwtUtils.getId(token)}`);
     setOriginalQuestions(data);
     console.log(data);
@@ -83,7 +102,10 @@ function Marking({match}) {
 
   return (
     <Layout>
-      <Title level={4}>답안 입력</Title>
+      <h2>답안 입력</h2>
+      <Title style={{fontSize: '1.4rem', margin: '0 0 0.5rem 0'}}>{`${textbook.name} ${textbook.semester}`}</Title>
+      <Title style={{fontSize: '1.4rem', margin: '0 0 0.5rem 0', paddingLeft: '2rem'}}>{`${textbook.category}`}</Title>
+      <Title style={{fontSize: '1.4rem', margin: '0 0 1rem 0', paddingLeft: '4rem'}}>{`${textbook.categoryCode} ${textbook.categoryName}`}</Title>
       <Content style={{padding: '0 1rem'}}>
         <QuestionList questions={questions} myAnswers={myAnswers} setMyAnswer={setMyAnswer} submit={submit}></QuestionList>
       </Content>
