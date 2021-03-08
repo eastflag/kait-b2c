@@ -2,15 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {Row, Col, Image, Space, Badge, Button} from "antd";
 import api from "../../utils/api";
 import {useSelector} from "react-redux";
-import {useHistory} from "react-router";
 import "./Main.scss";
 import moment from "moment";
 import {jwtUtils} from "../../utils/jwtUtils";
 
-function Main(props) {
+function Main({history}) {
   const token = useSelector(state => state.Auth.token);
   const [textbooks, setTextbooks] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     getTextbook();

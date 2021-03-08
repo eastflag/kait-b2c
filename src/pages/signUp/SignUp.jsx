@@ -1,7 +1,6 @@
 import React from 'react';
 import {Form, Input, Button, Checkbox, message, Row, Typography} from "antd";
 import api from "../../utils/api";
-import {useHistory} from "react-router";
 
 const {Title} = Typography;
 
@@ -36,8 +35,7 @@ const tailFormItemLayout = {
   },
 };
 
-function SignUp(props) {
-  const history = useHistory();
+function SignUp({history}) {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {

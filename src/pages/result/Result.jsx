@@ -4,11 +4,10 @@ import {useSelector} from "react-redux";
 import {Typography, Row, Col, Card, Statistic, Button, Space, Layout} from "antd";
 import _ from "lodash";
 import {jwtUtils} from "../../utils/jwtUtils";
-import {useHistory} from "react-router";
 
 const {Title, Text} = Typography;
 
-function Result({match}) {
+function Result({history, match}) {
   const [textbook, setTextbook] = useState({
     name: '',
     semester: '',
@@ -22,7 +21,6 @@ function Result({match}) {
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
   const [answers, setAnswers] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     getResult(match.params['chapter_id']);

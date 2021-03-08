@@ -2,14 +2,12 @@ import React, {useEffect, useState} from 'react';
 import api from "../../utils/api";
 import _ from "lodash";
 import {Row, Col, Typography} from "antd";
-import {useHistory} from "react-router";
 
 const {Title, Text} = Typography;
 
-function Chapter({match}) {
+function Chapter({history, match}) {
   const [textbook, setTextbook] = useState({name: '', semester: ''});
   const [categorys, setCategorys] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     console.log(match.params);

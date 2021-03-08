@@ -1,17 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import api from "../../utils/api";
-import {jwtUtils} from "../../utils/jwtUtils";
-import {useHistory} from "react-router-dom";
 import {Avatar, Button, List, Popconfirm, Badge} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import {ROUTES_PATH} from "../../routes";
-import {decreaseAlarmbyTeacher, decreaseAlarmbyUser, setAlarmbyUser} from "../../redux/reducers/AlarmReducer";
+import {setAlarmbyUser} from "../../redux/reducers/AlarmReducer";
 
-function TeacherRoom(props) {
-  const token = useSelector(state => state.Auth.token);
+function TeacherRoom({history}) {
   const [roomList, setRoomList] = useState([]);
-  const history = useHistory();
   const alarmByUser = useSelector(state => state.Alarm.alarm_by_user)
   const dispatch = useDispatch();
 

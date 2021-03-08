@@ -5,13 +5,11 @@ import {jwtUtils} from "../../utils/jwtUtils";
 import {List, Typography, Avatar, Button, Popconfirm, Badge} from "antd";
 import {UserOutlined} from '@ant-design/icons';
 import {ROUTES_PATH} from "../../routes";
-import {useHistory} from "react-router-dom";
 import {decreaseAlarmbyTeacher} from "../../redux/reducers/AlarmReducer";
 
-function UserRoom(props) {
+function UserRoom({history}) {
   const token = useSelector(state => state.Auth.token);
   const [roomList, setRoomList] = useState([]);
-  const history = useHistory();
   const alarmByTeacher = useSelector(state => state.Alarm.alarm_by_teacher)
   const dispatch = useDispatch();
 

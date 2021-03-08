@@ -4,7 +4,6 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {ROUTES_PATH} from "../../routes";
 import api from "../../utils/api";
-import {useHistory} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import {setToken} from "../../redux/reducers/AuthReducer";
 
@@ -41,8 +40,7 @@ const tailFormItemLayout = {
   },
 };
 
-function Login(props) {
-  const history = useHistory();
+function Login({history}) {
   const dispatch = useDispatch();
 
   const onFinish = async (values) => {

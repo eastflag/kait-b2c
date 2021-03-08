@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Route, Redirect, Link, useHistory} from "react-router-dom";
+import {Route, Redirect, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {ROUTES_PATH} from "./index";
 import {jwtUtils} from "../utils/jwtUtils";
 import {Layout, Row, Dropdown, Menu, Typography, Space, notification, Badge} from "antd";
 import {MenuOutlined, HomeTwoTone, TeamOutlined, QuestionCircleTwoTone} from '@ant-design/icons';
-import _ from 'lodash';
 
 import './PrivateRoute.scss';
 import {setToken} from "../redux/reducers/AuthReducer";

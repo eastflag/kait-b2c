@@ -4,13 +4,12 @@ import QuestionList from "./QuestionList";
 import './Marking.css';
 import api from "../../utils/api";
 import {useSelector} from "react-redux";
-import {useHistory} from "react-router";
 import {jwtUtils} from "../../utils/jwtUtils";
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
 
-function Marking({match}) {
+function Marking({history, match}) {
   const [textbook, setTextbook] = useState({
     name: '',
     semester: '',
@@ -22,7 +21,6 @@ function Marking({match}) {
   const [questions, setQuestions] = useState([]);
   const [myAnswers, setMyAnswers] = useState([]);
 
-  const history = useHistory();
   const token = useSelector(state => state.Auth.token);
 
   useEffect(() => {
