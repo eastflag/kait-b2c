@@ -62,4 +62,4 @@ function SubjectiveQuestion({equation, userAnswer, myAnswer, setSubMyAnswer, ans
   );
 }
 
-export default SubjectiveQuestion;
+export default React.memo(SubjectiveQuestion);

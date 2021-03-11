@@ -47,4 +47,4 @@ function Question({name, examples, answers, equations, userAnswers, myAnswer, se
   );
 }
 
-export default Question;
+export default React.memo(Question);

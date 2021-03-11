@@ -39,4 +39,4 @@ function ObjectiveQuestion({example, answer, userAnswer, myAnswer, setSubMyAnswe
       </Col>)
 }
 
-export default ObjectiveQuestion;
+export default React.memo(ObjectiveQuestion);

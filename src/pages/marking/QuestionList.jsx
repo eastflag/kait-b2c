@@ -26,4 +26,4 @@ function QuestionList({questions, myAnswers, setMyAnswer, submit}) {
   );
 }
 
-export default QuestionList;
+export default React.memo(QuestionList);

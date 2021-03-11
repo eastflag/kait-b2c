@@ -110,11 +110,11 @@ function Marking({history, match}) {
       <Title style={{fontSize: '1.4rem', margin: '0 0 0.5rem 0'}}>{`${textbook.name} ${textbook.semester}`}</Title>
       <Title style={{fontSize: '1.4rem', margin: '0 0 0.5rem 0', paddingLeft: '2rem'}}>{`${textbook.category}`}</Title>
       <Title style={{fontSize: '1.4rem', margin: '0 0 1rem 0', paddingLeft: '4rem'}}>{`${textbook.categoryCode} ${textbook.categoryName}`}</Title>
-      <Content style={{padding: '0 1rem'}}>
+      <Content style={{padding: '0 1rem 1rem'}}>
         <QuestionList questions={questions} myAnswers={myAnswers} setMyAnswer={setMyAnswer} submit={submit}></QuestionList>
       </Content>
     </Layout>
   );
 }
 
-export default Marking;
+export default React.memo(Marking);
