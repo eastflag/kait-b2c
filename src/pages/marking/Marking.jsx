@@ -3,8 +3,9 @@ import {Typography, Layout} from "antd";
 import QuestionList from "./QuestionList";
 import './Marking.css';
 import api from "../../utils/api";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {jwtUtils} from "../../utils/jwtUtils";
+import {NotiReducer, setLoading} from "../../redux/reducers/NotiReducer";
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -22,12 +23,15 @@ function Marking({history, match}) {
   const [myAnswers, setMyAnswers] = useState([]);
 
   const token = useSelector(state => state.Auth.token);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getQuestions(match.params['chapter_id']);
   }, [])
 
   const getQuestions = async (chapter_id) => {
+    dispatch(setLoading(true));
+
     const res = await api.get(`/api/chapter/detail/${chapter_id}}`);
     console.log(res.data);
     if (res.data) {
@@ -60,6 +64,8 @@ function Marking({history, match}) {
 
     setMyAnswers([...myAnswers]);
     setQuestions(result);
+
+    dispatch(setLoading(false));
   }
 
   const setMyAnswer = (index, value) => {

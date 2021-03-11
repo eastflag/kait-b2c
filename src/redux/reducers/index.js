@@ -4,6 +4,7 @@ import {AuthReducer} from "./AuthReducer";
 import {combineReducers} from "redux";
 import {ChatReducer} from "./ChatReducer";
 import {AlarmReducer} from "./AlarmReducer";
+import {NotiReducer} from "./NotiReducer";
 
 const persistConfig = {
   key: "root",
@@ -14,6 +15,11 @@ const persistConfig = {
   // blacklist -> 그것만 제외합니다
 };
 
-const allReducers = combineReducers({Auth: AuthReducer, Chat: ChatReducer, Alarm: AlarmReducer});
+const allReducers = combineReducers({
+  Auth: AuthReducer,
+  Chat: ChatReducer,
+  Alarm: AlarmReducer,
+  Noti: NotiReducer
+});
 
 export default persistReducer(persistConfig, allReducers);

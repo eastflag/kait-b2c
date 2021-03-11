@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import api from "../../utils/api";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Typography, Row, Col, Card, Statistic, Button, Space, Layout} from "antd";
 import _ from "lodash";
 import {jwtUtils} from "../../utils/jwtUtils";
+import {setLoading} from "../../redux/reducers/NotiReducer";
 
 const {Title, Text} = Typography;
 
@@ -22,11 +23,15 @@ function Result({history, match}) {
   const [wrong, setWrong] = useState(0);
   const [answers, setAnswers] = useState([]);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     getResult(match.params['chapter_id']);
   }, [])
 
   const getResult = async (chapter_id) => {
+    dispatch(setLoading(true));
+
     const res = await api.get(`/api/chapter/detail/${chapter_id}}`);
     console.log(res.data);
     if (res.data) {
@@ -57,6 +62,8 @@ function Result({history, match}) {
     setCorrectRate((userScore / userTotal * 100).toFixed(1));
 
     setAnswers(data);
+
+    dispatch(setLoading(false));
   }
 
   const addChannel = () => {
