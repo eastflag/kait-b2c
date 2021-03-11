@@ -37,7 +37,7 @@ function Main({history}) {
     <>
       <Row justify="space-between">
         <h2>교재선택</h2>
-        <span>+</span>
+        <span></span>
       </Row>
       {
         textbooks.map(textbook => (
@@ -72,14 +72,18 @@ function Main({history}) {
                       <Col span={10}>남은문항</Col>
                       <Col span={14}>{textbook.total_question - textbook.total_progress} / {textbook.total_question} 문항</Col>
                     </Row>
-                    <Row justify="space-between">
-                      <Button type="primary" ghost onClick={() => history.push(`/chapter/${textbook.id}`)}>학습하기</Button>
-                      <Button type="primary" ghost>채점결과</Button>
+                    <Row justify="space-between" align="middle">
+                      <Col span={10}>{`${textbook.name} ${textbook.semester}`}</Col>
+                      <Col span={14}><Button type="primary" ghost block onClick={() => history.push(`/chapter/${textbook.id}`)}>학습하기</Button></Col>
+                      {/*<Button type="primary" ghost>채점결과</Button>*/}
                     </Row>
                   </Space>
                 ) : (
                   <div style={{padding: '0 0.5rem 0 1.5rem'}}>
-                    <Button type="primary" ghost block onClick={() => history.push(`/chapter/${textbook.id}`)}>학습시작</Button>
+                    <Row justify="space-between" align="middle">
+                      <Col span={10}>{`${textbook.name} ${textbook.semester}`}</Col>
+                      <Col span={14}> <Button type="primary" ghost block onClick={() => history.push(`/chapter/${textbook.id}`)}>학습시작</Button></Col>
+                    </Row>
                   </div>
                 )
               }
