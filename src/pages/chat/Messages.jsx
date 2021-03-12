@@ -9,6 +9,11 @@ function Messages({questionId}) {
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
+    const messagesSelector = document.querySelector('.messages');
+    messagesSelector.scrollTop = messagesSelector.scrollHeight;
+  }, [messages]);
+
+  useEffect(() => {
     const room = total_messages.find(item => item.questionId === questionId);
     console.log(room);
     if (room) {
