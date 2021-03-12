@@ -72,10 +72,20 @@ function Chat({location}) {
     e.preventDefault();
 
     if(message) {
-      socket.emit('message', message);
+      socket.emit('message', {
+        type: 'text',
+        msg: message
+      });
       setMessage('');
     }
   };
+
+  const sendImage = (id) => {
+    socket.emit('message', {
+      type: 'image',
+      msg: id.toString()
+    });
+  }
 
   return (
     <div>
@@ -84,7 +94,7 @@ function Chat({location}) {
       </div>
 
       <Messages questionId={questionId}></Messages>
-      <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage}></ChatInput>
+      <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage} sendImage={sendImage}></ChatInput>
     </div>
   );
 }
