@@ -7,6 +7,12 @@ import {store} from "./redux/store";
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistStore} from "redux-persist";
 import App from "./App";
+import TagManager from 'react-gtm-module'
+
+const tagManagerArgs = {
+  gtmId: 'GTM-PJH3ZWM'
+}
+TagManager.initialize(tagManagerArgs)
 
 const persistor = persistStore(store);
 
