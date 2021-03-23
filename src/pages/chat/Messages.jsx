@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import Message from "./Message";
-import { use100vh } from 'react-div-100vh'
 
 import './Messages.scss';
 import {useSelector} from "react-redux";
@@ -9,15 +8,14 @@ function Messages({questionId}) {
   const total_messages = useSelector(state => state.Chat.total_messages);
   const [messages, setMessages] = useState([])
 
-  const height = use100vh();
-
   useEffect(() => {
+    const height = document.documentElement?.clientHeight;
     console.log(height);
     if (height) {
       setTimeout(() => {
-        const calHeight = height - 56 - 25 -40;
+        const calHeight = height - 56 - 25 - 40;
         document.getElementById('messages').style.height = calHeight + 'px';
-      }, 300);
+      }, 500);
     }
   }, []);
 
