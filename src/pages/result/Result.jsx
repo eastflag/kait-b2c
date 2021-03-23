@@ -132,13 +132,11 @@ function Result({history, match}) {
       <h2>문항별 정오</h2>
       {
         answers.map(answer => (
-          <Row key={answer.name} justify="space-between" align="middle" style={{margin: '0.3rem'}}>
+          <Row key={answer.name} justify="space-between" align="middle" style={{padding: '0.4rem', borderBottom: '1px solid #dddddd'}}>
             <Text>{answer.name}</Text>
             <Text>{answer.score ? 'O' : 'X'}</Text>
             <Space>
-              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChat(answer, 'intro')}>도입</Button>
-              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChat(answer, 'solve')}>풀이</Button>
-              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChat(answer, 'chat')}>채팅</Button>
+              <Button type="primary" ghost shape="round" size="small" onClick={() => gotoChat(answer, 'chat')}>질문 하기</Button>
             </Space>
           </Row>
         ))
