@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Question from "../../components/Question";
 import api from "../../utils/api";
-import {Button} from "antd";
+import {Affix, Button} from "antd";
 
 function QuestionList({questions, myAnswers, setMyAnswer, submit}) {
 
@@ -21,7 +21,9 @@ function QuestionList({questions, myAnswers, setMyAnswer, submit}) {
                                             answers={question.answers} equations={question.equations} userAnswers={question.userAnswers}
                                             myAnswer={myAnswers[index]} setMyAnswer={setMyAnswer} answerIndex={index}></Question>)
       }
-      <Button block ghost type="primary" onClick={submit}>제출</Button>
+      <Affix offsetBottom={5}>
+        <Button block type="primary" onClick={submit}>제출</Button>
+      </Affix>
     </>
   );
 }
