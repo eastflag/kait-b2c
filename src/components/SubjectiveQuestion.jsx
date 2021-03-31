@@ -54,7 +54,7 @@ function SubjectiveQuestion({equation, userAnswer, myAnswer, setSubMyAnswer, ans
       </h3>
       <Row justify="center" className={classNames({'display-none': !!userAnswer})}>
         {
-          _.range(0, answerCount).map(item => <Col key={item}><Input style={{width: '50px', padding: '0.1rem 0', marginRight: '0.3rem'}}
+          _.range(0, answerCount).map(item => <Col key={item}><Input type="number" style={{width: '50px', padding: '0.1rem 0', marginRight: '0.3rem'}}
                                                 onChange={(e) => onChange(e, item)}/></Col>)
         }
       </Row>
