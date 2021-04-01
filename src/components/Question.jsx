@@ -1,10 +1,13 @@
 import React from 'react';
 import ObjectiveQuestion from "./ObjectiveQuestion";
 import SubjectiveQuestion from "./SubjectiveQuestion";
-import _ from 'lodash';
-import {Row, Col} from "antd";
+import {Row, Col, Button} from "antd";
+import api from "../utils/api";
+import {useHistory} from "react-router-dom";
 
-function Question({name, examples, answers, equations, userAnswers, myAnswer, setMyAnswer, answerIndex}) {
+function Question({id, name, examples, answers, equations, userAnswers, myAnswer, setMyAnswer, answerIndex}) {
+  const history = useHistory();
+
   const setSubMyAnswer = (subIndex, value) => {
     // 서브 문제가 없는 경우
     if (answers.length === 1) {
@@ -14,6 +17,15 @@ function Question({name, examples, answers, equations, userAnswers, myAnswer, se
       subAnswerList[subIndex] = value;
       setMyAnswer(answerIndex, subAnswerList.join('|'));
     }
+  }
+
+  const gotoChat = async () => {
+    const {data} = await api.get(`/api/question/id?questionId=${id}`);
+
+    const {code, semester, page_number, textbook_name, name} = data;
+    const questionName = `${textbook_name} ${semester} ${name}`;
+
+    history.push(`/chat?questionId=${id}&questionName=${questionName}`);
   }
 
   return (
@@ -41,6 +53,9 @@ function Question({name, examples, answers, equations, userAnswers, myAnswer, se
               )
             })
           }
+        </Col>
+        <Col className="question-button">
+          <Button ghost type="primary" size="small" onClick={() => gotoChat()}>질문</Button>
         </Col>
       </Row>
     </>

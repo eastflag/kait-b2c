@@ -2,7 +2,11 @@
   margin-bottom: 0.5rem;
 }
 .name-title {
-  padding-right: 2rem;
+  padding-right: 1rem;
+}
+
+.question-button {
+  padding-left: 1rem;
 }
 
 .display-none {

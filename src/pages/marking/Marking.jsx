@@ -5,7 +5,7 @@ import './Marking.css';
 import api from "../../utils/api";
 import {useDispatch, useSelector} from "react-redux";
 import {jwtUtils} from "../../utils/jwtUtils";
-import {NotiReducer, setLoading} from "../../redux/reducers/NotiReducer";
+import {setLoading} from "../../redux/reducers/NotiReducer";
 
 const { Content } = Layout;
 const {Title, Text} = Typography;
@@ -54,6 +54,7 @@ function Marking({history, match}) {
       myAnswers.push(Array(item.answers.split('|').length).join('|'));
 
       return  {
+        id: item.id,
         name: item.name,
         userAnswers: item.userAnswers ? item.userAnswers.split('|') : '',
         examples: item.examples.split('|'),
@@ -110,7 +111,7 @@ function Marking({history, match}) {
       <Title style={{fontSize: '1.4rem', margin: '0 0 0.5rem 0'}}>{`${textbook.name} ${textbook.semester}`}</Title>
       <Title style={{fontSize: '1.4rem', margin: '0 0 0.5rem 0', paddingLeft: '2rem'}}>{`${textbook.category}`}</Title>
       <Title style={{fontSize: '1.4rem', margin: '0 0 1rem 0', paddingLeft: '4rem'}}>{`${textbook.categoryCode} ${textbook.categoryName}`}</Title>
-      <Content style={{padding: '0 1rem 1rem'}}>
+      <Content style={{padding: '0 0.5rem 1rem'}}>
         <QuestionList questions={questions} myAnswers={myAnswers} setMyAnswer={setMyAnswer} submit={submit}></QuestionList>
       </Content>
     </Layout>

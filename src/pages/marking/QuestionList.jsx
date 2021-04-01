@@ -17,7 +17,7 @@ function QuestionList({questions, myAnswers, setMyAnswer, submit}) {
         <Latex displayMode={true}>{s2}</Latex>
       </h2>*/}
       {
-        questions.map((question, index) => <Question key={question.name} name={question.name} examples={question.examples}
+        questions.map((question, index) => <Question key={question.id} id={question.id} name={question.name} examples={question.examples}
                                             answers={question.answers} equations={question.equations} userAnswers={question.userAnswers}
                                             myAnswer={myAnswers[index]} setMyAnswer={setMyAnswer} answerIndex={index}></Question>)
       }
