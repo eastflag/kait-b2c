@@ -56,7 +56,7 @@ function Marking({history, match}) {
       return  {
         id: item.id,
         name: item.name,
-        userAnswers: item.userAnswers ? item.userAnswers.split('|') : '',
+        userAnswers: item.userAnswers ? item.userAnswers.split('|') : '',  // 에전에 작성한 답안
         examples: item.examples.split('|'),
         equations: item.equations.split('|'),
         answers: item.answers.split('|')

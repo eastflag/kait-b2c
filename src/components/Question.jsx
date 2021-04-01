@@ -33,7 +33,7 @@ function Question({id, name, examples, answers, equations, userAnswers, myAnswer
       <Row className="question">
         <Col className="name-title"><h3>{name}</h3></Col>
         <Col flex="auto">
-          {/*서브문제가 있는 경우를 고려*/}
+          {/*서브문제가 있는 경우를 고려 ['1,2,3,4,5', 'X'] */}
           {
             examples.map((example, index) => {
               return (
@@ -45,9 +45,10 @@ function Question({id, name, examples, answers, equations, userAnswers, myAnswer
                     example.indexOf('X') > -1 ? <SubjectiveQuestion index={name + index.toString()}
                                                     answer={answers[index]} equation={equations[index]} userAnswer={userAnswers ? userAnswers[index] : ''}
                                                     myAnswer={myAnswer.split('|')[index]} setSubMyAnswer={setSubMyAnswer} answerSubIndex={index}></SubjectiveQuestion> :
-                      <ObjectiveQuestion index={name + index.toString()} example={example}
-                          answer={answers[index]} userAnswer={userAnswers ? userAnswers[index] : ''}
-                          myAnswer={myAnswer.split('|')[index]} setSubMyAnswer={setSubMyAnswer} answerSubIndex={index}></ObjectiveQuestion>
+                      example.indexOf(',') > -1 ?
+                        <ObjectiveQuestion index={name + index.toString()} example={example}
+                            answer={answers[index]} userAnswer={userAnswers ? userAnswers[index] : ''}
+                            myAnswer={myAnswer.split('|')[index]} setSubMyAnswer={setSubMyAnswer} answerSubIndex={index}></ObjectiveQuestion> : ''
                   }
                 </Row>
               )
