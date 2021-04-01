@@ -51,17 +51,22 @@ function Result({history, match}) {
     const score = Number(res2.data['score']);
     if (total) {
       setAverageCorrectRate((score/total*100).toFixed(1));
+    } else {
+      // total이 0이면 평균 정답률 처리를 하지 않는다.
+
     }
 
     // 학생 정답율
     const {data} = await api.get(`/api/user/result/chapter/${chapter_id}?userId=${jwtUtils.getId(token)}`);
     const userTotal = data.length;
-    const userScore = _.sumBy(data, 'score')
-    setCorrect(userScore);
-    setWrong(userTotal - userScore);
-    setCorrectRate((userScore / userTotal * 100).toFixed(1));
+    if (userTotal) { // 0이 아니면
+      const userScore = _.sumBy(data, 'score')
+      setCorrect(userScore);
+      setWrong(userTotal - userScore);
+      setCorrectRate((userScore / userTotal * 100).toFixed(1));
 
-    setAnswers(data);
+      setAnswers(data);
+    }
 
     dispatch(setLoading(false));
   }
