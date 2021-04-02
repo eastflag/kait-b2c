@@ -18,6 +18,15 @@ function TeacherRoom({history}) {
   const getRoomsOfTeacher = async () => {
     const {data} = await api.get(`/api/chat/roomsOfTeacher`);
     console.log(data);
+    data.sort(item => {
+      if (item.roleName === 'user') {
+        return -1;
+      } else if (item.roleName === 'teacher') {
+        return 0;
+      } else {
+        return 1;
+      }
+    })
     setRoomList(data);
 
     const count = data.filter(room => room.roleName === 'user').length;
