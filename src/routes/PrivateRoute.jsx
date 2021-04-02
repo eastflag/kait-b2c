@@ -110,10 +110,10 @@ const PrivateRoute = (props) => {
             {
               jwtUtils.getRoles(token).indexOf('teacher') > -1 ?
                 <Badge count={alarmByUser}>
-                  <TeamOutlined onClick={() => history.push(ROUTES_PATH.TeacherRoom)} className="header__menu"></TeamOutlined>
+                  <TeamOutlined onClick={() => history.push(ROUTES_PATH.TeacherRoom)} className="header__title"></TeamOutlined>
                 </Badge>:
                 <Badge count={alarmByTeacher}>
-                  <QuestionCircleTwoTone onClick={() => history.push(ROUTES_PATH.UserRoom)} className="header__menu" />
+                  <QuestionCircleTwoTone onClick={() => history.push(ROUTES_PATH.UserRoom)} className="header__title" />
                 </Badge>
             }
 
