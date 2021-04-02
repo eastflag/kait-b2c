@@ -13,7 +13,7 @@ const {Text} = Typography;
 
 let socket;
 
-function Chat({location}) {
+function Chat({location, history}) {
   const token = useSelector(state => state.Auth.token);
   const [questionId, setQuestionId] = useState('');
   const [questionName, setQuestionName] = useState('');
@@ -87,6 +87,17 @@ function Chat({location}) {
     });
   }
 
+  const setChatHistory = async () => {
+    const {data} = await api.put(`/api/chat/chatHistory?questionId=${questionId}`);
+    // isClear 세팅후 방 나가기 및 메시지 처리
+    notification.open({
+      message: <span className="error-msg-title">완료 처리</span>,
+      description: "해당 학생 방을 완료 처리하였습니다.,",
+      duration: 3,
+    });
+    history.goBack();
+  }
+
   return (
     <div>
       <div style={{borderBottom: '1px solid #dddddd'}}>
@@ -94,7 +105,8 @@ function Chat({location}) {
       </div>
 
       <Messages questionId={questionId}></Messages>
-      <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage} sendImage={sendImage}></ChatInput>
+      <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage} sendImage={sendImage}
+        setChatHistory={setChatHistory}></ChatInput>
     </div>
   );
 }
