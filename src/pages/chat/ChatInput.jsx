@@ -3,8 +3,12 @@ import {Input, Button, Upload} from "antd";
 import {UploadOutlined, ClearOutlined} from '@ant-design/icons';
 
 import './ChatInput.scss';
+import {jwtUtils} from "../../utils/jwtUtils";
+import {useSelector} from "react-redux";
 
 function ChatInput({message, setMessage, sendMessage, sendImage, setChatHistory}) {
+  const token = useSelector(state => state.Auth.token);
+
   const onChange = async (info) => {
     console.log('info', info);
     // file이 업로드가 되면 info.file.status가 uploading
@@ -52,7 +56,11 @@ function ChatInput({message, setMessage, sendMessage, sendImage, setChatHistory}
       >
         <Button size="large" className="upload-button" icon={<UploadOutlined />}></Button>
       </Upload>
-      <Button size="large" className="clear-button" icon={<ClearOutlined /> } onClick={() => setChatHistory()}></Button>
+      {
+        jwtUtils.getRoles(token).indexOf('teacher') >= 0 &&
+          <Button size="large" className="clear-button" icon={<ClearOutlined /> } onClick={() => setChatHistory()}></Button>
+      }
+
     </form>
   );
 }
