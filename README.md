@@ -41,7 +41,6 @@ isJoined 가 true이면서,
 학생이 여러명일수 있으므로 questionId로 distinct 해서 하나만 가져온다.
 chat_history에 맨마지막 roleName도 가져온다.
 chat_history의 맨 마지막이 user이면 클라이언트가 알람을 표시한다.
-
 학생입장: 자기 id의 방정보를 isJoined true인 것만 가져온다.
 방에 입장후 나가게 되면 isRead true 처리로 읾음 처리한다.
 chat_history의 맨 마지막이 teacher 이고 isRead 0 이면 알람 표시.
