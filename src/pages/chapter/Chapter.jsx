@@ -36,8 +36,8 @@ function Chapter({history, match}) {
         reactNodeList.push(
           <Row key={category.code} align="middle" style={{margin: '0 0 0.5rem 0', cursor: 'pointer'}} onClick={() => history.push(`/marking/${category.id}`)}>
             <Col style={{width: '1rem'}}></Col>
-            <Col>
-              <Text>{category.code + '. '}</Text>
+            <Col style={{width: '1.5rem'}}>
+              <Text>{category.code}</Text>
             </Col>
             <Col>
               <Text>{category.name}</Text>
