@@ -5,10 +5,20 @@ import {useSelector} from "react-redux";
 import "./Main.scss";
 import moment from "moment";
 import {jwtUtils} from "../../utils/jwtUtils";
+import classNames from 'classnames';
+import _ from 'lodash';
 
 function Main({history}) {
   const token = useSelector(state => state.Auth.token);
   const [textbooks, setTextbooks] = useState([]);
+  const [semester, setSemester] = useState([
+    { label: '중 1', selected: false},
+    { label: '중 2', selected: false},
+    { label: '중 3', selected: false},
+    { label: '고 1', selected: false},
+    { label: '고 2', selected: false},
+    { label: '고 3', selected: false}
+  ]);
 
   useEffect(() => {
     getTextbook();
@@ -33,11 +43,30 @@ function Main({history}) {
     setTextbooks(data);
   }
 
+  const toggleButton = label => {
+    let newSemester = semester.map(item => {
+      if (item.label === label) {
+        item.selected = !item.selected;
+      }
+      return {...item};
+    });
+    setSemester(newSemester);
+  }
+
   return (
     <>
       <Row justify="space-between">
         <h2>교재선택</h2>
         <span></span>
+      </Row>
+      <Row>
+        {
+          semester.map((item, index) =>
+            <Col style={{margin: 0, padding: 0}} key={index} flex={1}>
+              <Button block onClick={() => toggleButton(item.label)} ghost={!item.selected} primary={item.selected}>
+                {item.label}</Button>
+            </Col>)
+        }
       </Row>
       {
         textbooks.map(textbook => (
