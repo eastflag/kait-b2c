@@ -7,6 +7,8 @@ export const ROUTES_PATH = {
   Chat: "/chat",
   UserRoom: "/user_room",
   TeacherRoom: "/teacher_room",
+  Profile: "/profile",
+  Password: "/password",
   Login: "/login",
   SignUp: "/signUp"
 }

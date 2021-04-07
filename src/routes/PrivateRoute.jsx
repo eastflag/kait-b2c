@@ -3,7 +3,7 @@ import {Route, Redirect, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {ROUTES_PATH} from "./index";
 import {jwtUtils} from "../utils/jwtUtils";
-import {Layout, Row, Dropdown, Menu, Typography, Space, notification, Badge} from "antd";
+import {Layout, Row, Dropdown, Menu, Typography, Space, notification, Badge, Divider} from "antd";
 import {MenuOutlined, HomeTwoTone, TeamOutlined, QuestionCircleTwoTone} from '@ant-design/icons';
 
 import './PrivateRoute.scss';
@@ -69,13 +69,13 @@ const PrivateRoute = (props) => {
   const setAlarm = async () => {
     if (jwtUtils.getRoles(token).indexOf('teacher') >= 0) {
       const {data} = await api.get(`/api/chat/roomsOfTeacher`);
-      console.log(data);
+      // console.log(data);
       const count = data.filter(room => room.roleName === 'user').length;
       dispatch(setAlarmbyUser(count));
     } else { // user 알람: 선생님이 전달한 알람.
       const {data} = await api.get(`/api/chat/roomsOfUser?userId=${jwtUtils.getId(token)}`);
       const count = data.filter(room => room.isRead === 0).length;
-      console.log(count);
+      // console.log(count);
       dispatch(setAlarmbyTeacher(count));
     }
   }
@@ -93,8 +93,18 @@ const PrivateRoute = (props) => {
 
   const menu = (
     <Menu>
-      <Menu.Item>
-        <Text onClick={logout}>
+      <Menu.Item onClick={() => history.push('/profile')}>
+        <Text strong>
+          정보 수정
+        </Text>
+      </Menu.Item>
+      <Menu.Item onClick={() => history.push('/password')}>
+        <Text strong>
+          패스워드 변경
+        </Text>
+      </Menu.Item>
+      <Menu.Item onClick={logout}>
+        <Text strong>
           logout
         </Text>
       </Menu.Item>

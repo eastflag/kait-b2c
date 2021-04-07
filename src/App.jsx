@@ -16,6 +16,8 @@ import TeacherRoom from "./pages/room/TeacherRoom";
 
 import './App.scss';
 import {useSelector} from "react-redux";
+import ModifyProfile from "./pages/my/ModifyProfile";
+import ModifyPassword from "./pages/my/ModifyPassword";
 
 const { Content } = Layout;
 
@@ -38,6 +40,8 @@ function App(props) {
                   <PrivateRoute exact path={ROUTES_PATH.Channel} component={Channel}></PrivateRoute>
                   <PrivateRoute exact path={ROUTES_PATH.UserRoom} component={UserRoom}></PrivateRoute>
                   <PrivateRoute exact path={ROUTES_PATH.TeacherRoom} component={TeacherRoom}></PrivateRoute>
+                  <PrivateRoute exact path={ROUTES_PATH.Profile} component={ModifyProfile}></PrivateRoute>
+                  <PrivateRoute exact path={ROUTES_PATH.Password} component={ModifyPassword}></PrivateRoute>
                   <Route exact path={ROUTES_PATH.Login} component={Login}></Route>
                   <Route exact path={ROUTES_PATH.SignUp} component={SignUp}></Route>
                 </Switch>
