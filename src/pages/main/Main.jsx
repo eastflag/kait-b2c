@@ -10,8 +10,10 @@ import _ from 'lodash';
 
 function Main({history}) {
   const token = useSelector(state => state.Auth.token);
+  const [originTextbooks, setOriginTextbooks] = useState([]);
   const [textbooks, setTextbooks] = useState([]);
-  const [semester, setSemester] = useState([
+  // 검색 필터
+  const [semesters, setSemesters] = useState([
     { label: '중 1', selected: false},
     { label: '중 2', selected: false},
     { label: '중 3', selected: false},
@@ -23,6 +25,21 @@ function Main({history}) {
   useEffect(() => {
     getTextbook();
   }, [])
+
+  useEffect(() => {
+    // selectedSemesters 는 Array<string>
+    const selectedSemesters = semesters.filter(item => item.selected).map(item => item.label)
+
+    if (selectedSemesters.length > 0) {
+      const selectedTextbooks = originTextbooks.filter(item => {
+        const label = item.semester.substring(0, 3);
+        return selectedSemesters.indexOf(label) > -1;
+      })
+      setTextbooks(selectedTextbooks);
+    } else {
+      setTextbooks(originTextbooks);
+    }
+  }, [semesters])
 
   const getTextbook = async () => {
     const {data} = await api.get(`/api/user/getTextbook?userId=${jwtUtils.getId(token)}`);
@@ -40,17 +57,38 @@ function Main({history}) {
       }
     })
 
+    setOriginTextbooks(data);
     setTextbooks(data);
+    // 스토리지에서 저장된 검색 필터 가져오기
+    if (localStorage.getItem("semesters")) {
+      const selectedSemesters = JSON.parse(localStorage.getItem("semesters"));
+
+      const storageSemesters = semesters.map(item => {
+        if (selectedSemesters.indexOf(item.label) > -1) {
+          item.selected = true;
+        }
+        return item;
+      });
+      setSemesters(storageSemesters);
+    }
   }
 
   const toggleButton = label => {
-    let newSemester = semester.map(item => {
+    let newSemester = semesters.map(item => {
       if (item.label === label) {
         item.selected = !item.selected;
       }
       return {...item};
     });
-    setSemester(newSemester);
+    setSemesters(newSemester);
+
+    // 변경된 필터 정보를 스토리지에 저장
+    const selectedSemesters = newSemester.filter(item => item.selected ? true : false).map(item => item.label);
+    if (selectedSemesters.length > 0) {
+      localStorage.setItem("semesters", JSON.stringify(selectedSemesters));
+    } else {
+      localStorage.removeItem("semesters");
+    }
   }
 
   return (
@@ -61,9 +99,9 @@ function Main({history}) {
       </Row>
       <Row>
         {
-          semester.map((item, index) =>
+          semesters.map((item, index) =>
             <Col style={{margin: 0, padding: 0}} key={index} flex={1}>
-              <Button block onClick={() => toggleButton(item.label)} ghost={!item.selected} primary={item.selected}>
+              <Button block onClick={() => toggleButton(item.label)} type={item.selected ? 'primary' : 'default'}>
                 {item.label}</Button>
             </Col>)
         }
