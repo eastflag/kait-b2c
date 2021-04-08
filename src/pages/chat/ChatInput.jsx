@@ -1,6 +1,6 @@
 import React from 'react';
 import {Input, Button, Upload} from "antd";
-import {UploadOutlined, ClearOutlined} from '@ant-design/icons';
+import {ClearOutlined, CameraOutlined} from '@ant-design/icons';
 
 import './ChatInput.scss';
 import {jwtUtils} from "../../utils/jwtUtils";
@@ -54,7 +54,7 @@ function ChatInput({message, setMessage, sendMessage, sendImage, setChatHistory}
         showUploadList={false}
         onChange={onChange}
       >
-        <Button size="large" className="upload-button" icon={<UploadOutlined />}></Button>
+        <Button size="large" className="upload-button" icon={<CameraOutlined />}></Button>
       </Upload>
       {
         jwtUtils.getRoles(token).indexOf('teacher') >= 0 &&
