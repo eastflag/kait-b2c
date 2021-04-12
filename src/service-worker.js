@@ -49,7 +49,7 @@ registerRoute(
   'POST'
 );
 
-registerRoute(
+/*registerRoute(
   /\/api\/.+/,
   new CacheFirst({
     cacheName: "short-cache",
@@ -66,7 +66,7 @@ registerRoute(
       }),
     ],
   })
-);
+);*/
 
 registerRoute(
   /.*\.(css|js|eot|ico|svg|ttg|woff|woff2|png|jpg|jpeg|gif)/,
