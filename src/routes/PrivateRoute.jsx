@@ -63,6 +63,8 @@ const PrivateRoute = (props) => {
     socket.on('alarm_by_user', (msg) => {
       console.log(msg);
       setAlarm();
+      // push notification
+      notify();
     });
   }, [socket])
 
@@ -89,6 +91,28 @@ const PrivateRoute = (props) => {
   const logout = () => {
     dispatch(setToken(''))
     history.push('/login');
+  }
+
+  const notify = () => {
+    const options = {
+      icon: "/images/notifications_button.png",
+      body: "알람이 도착했습니다."
+    };
+
+    if (!"Notification" in window) {
+      console.error("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+      new Notification("ez-ask.com Notification", options);
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission((permission) => {
+        if(!('permission' in Notification)) {
+          Notification.permission = permission;
+        }
+        if (permission === "granted") {
+          new Notification("ez-ask.com Notification", options);
+        }
+      });
+    }
   }
 
   const menu = (

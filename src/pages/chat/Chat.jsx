@@ -34,8 +34,6 @@ function Chat({location, history}) {
 
     socket.on('message', (msgJson, error) => {
       dispatch(addMessage({questionId, message: msgJson}));
-      // push notification
-      notify();
     });
 
     getChatHistory(questionId);
@@ -97,28 +95,6 @@ function Chat({location, history}) {
       duration: 3,
     });
     history.goBack();
-  }
-
-  const notify = () => {
-    const options = {
-      icon: "/images/notifications_button.png",
-      body: "알람이 도착했습니다."
-    };
-
-    if (!"Notification" in window) {
-      console.error("This browser does not support desktop notification");
-    } else if (Notification.permission === "granted") {
-      new Notification("ez-ask.com Notification", options);
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission((permission) => {
-        if(!('permission' in Notification)) {
-          Notification.permission = permission;
-        }
-        if (permission === "granted") {
-          new Notification("ez-ask.com Notification", options);
-        }
-      });
-    }
   }
 
   return (
