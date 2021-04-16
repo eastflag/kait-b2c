@@ -15,7 +15,12 @@ const ga4react = new GA4React("G-6Y0ZL44ETQ");
 const persistor = persistStore(store);
 
 (async () => {
-  await ga4react.initialize();
+  // 광고차단과 같은 크롬 익스텐션 사용시 에러가 발생한다.
+  try {
+    await ga4react.initialize();
+  } catch {
+
+  }
 
   ReactDOM.render(
     <Provider store={store}>
