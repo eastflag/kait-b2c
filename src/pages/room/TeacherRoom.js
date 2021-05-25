@@ -19,17 +19,15 @@ function TeacherRoom({history}) {
     const {data} = await api.get(`/api/chat/roomsOfTeacher`);
     console.log(data);
     data.sort(item => {
-      if (item.roleName === 'user') {
+      if (item.roleName === 'user' && !item.isClear) {
         return -1;
-      } else if (item.roleName === 'teacher') {
-        return 0;
       } else {
-        return 1;
+        return 0;
       }
     })
     setRoomList(data);
 
-    const count = data.filter(room => room.roleName === 'user').length;
+    const count = data.filter(room => (room.roleName === 'user') && !room.isClear).length;
     dispatch(setAlarmbyUser(count));
   }
 
@@ -46,7 +44,7 @@ function TeacherRoom({history}) {
         <List.Item key={item.id}>
           <List.Item.Meta
             avatar={
-              <Badge count={item.roleName === 'user' ? 1 : 0}>
+              <Badge count={item.roleName === 'user' && !item.isClear ? 1 : 0}>
                 <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
               </Badge>
             }
