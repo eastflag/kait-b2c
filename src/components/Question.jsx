@@ -22,8 +22,8 @@ function Question({id, name, examples, answers, equations, userAnswers, myAnswer
   const gotoChat = async () => {
     const {data} = await api.get(`/api/question/id?questionId=${id}`);
 
-    const {code, semester, page_number, textbook_name, name} = data;
-    const questionName = `${textbook_name} ${semester} ${name}`;
+    const {semester, textbook_name, categoryName, name} = data;
+    const questionName = `${textbook_name} ${semester} ${categoryName} ${name}`;
 
     history.push(`/chat?questionId=${id}&questionName=${questionName}`);
   }
