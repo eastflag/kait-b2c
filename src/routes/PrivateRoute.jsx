@@ -72,7 +72,7 @@ const PrivateRoute = (props) => {
     if (jwtUtils.getRoles(token).indexOf('teacher') >= 0) {
       const {data} = await api.get(`/api/chat/roomsOfTeacher`);
       // console.log(data);
-      const count = data.filter(room => room.roleName === 'user').length;
+      const count = data.filter(room => (room.roleName === 'user') && !room.isClear).length;
       dispatch(setAlarmbyUser(count));
     } else { // user 알람: 선생님이 전달한 알람.
       const {data} = await api.get(`/api/chat/roomsOfUser?userId=${jwtUtils.getId(token)}`);
